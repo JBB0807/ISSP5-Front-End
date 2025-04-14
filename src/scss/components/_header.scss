@@ -1,0 +1,11 @@
+// Header
+
+@use '../base/settings' as *;
+@use '../utilities/mixins' as *;
+
+header {
+    padding: $section-padding;
+    h1 {
+        @include flatten;
+    }
+}

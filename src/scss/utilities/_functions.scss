@@ -1,0 +1,13 @@
+// Functions
+
+// Function to
+// Convert Px to Ems
+@function em($px, $bc: 16) {
+  @return calc($px / $bc) * 1em;
+}
+
+// Function to
+// Convert Px to Rems
+@function rem($px, $bc: 16) {
+  @return calc($px / $bc) * 1rem;
+}

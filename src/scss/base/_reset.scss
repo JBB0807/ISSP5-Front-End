@@ -1,0 +1,21 @@
+// Resets
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}

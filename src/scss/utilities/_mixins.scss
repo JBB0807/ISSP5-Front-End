@@ -1,0 +1,31 @@
+// Mixins
+
+// Margin center...
+@mixin mc($set-tb: false, $t: 0, $b: 0) {
+    @if($set-tb){
+        margin: {
+            top: $t;
+            bottom: $b;
+            left: auto;
+            right: auto;
+        }
+    }@else {
+        margin: {
+            left: auto;
+            right: auto;
+        }
+    }
+}
+
+@mixin flatten($is-list: false, $is-text: true) {
+    margin: 0;
+    padding: 0;
+    @if($is-list: true){
+        list-style: none;
+    }
+    @if($is-text) {
+        line-height: 1;
+    }
+    
+}
+
