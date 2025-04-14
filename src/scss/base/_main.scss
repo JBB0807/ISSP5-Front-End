@@ -1,0 +1,7 @@
+// Main
+
+@use '../base/settings' as *;
+
+main {
+    padding: $section-padding;
+}

@@ -1,0 +1,17 @@
+// App Style Settings
+
+@use '../utilities/functions' as *;
+
+// Colors
+$dark: #1c1c1c;
+$light: #fcfcfc;
+$yellow: #f7df1c;
+$grey: #e1e1e1;
+$red: #d75b5b;
+
+// Type
+$bodyFont: 'Roboto', sans-serif;
+$headingFont: 'Alatsi', sans-serif;
+
+// Layout
+$section-padding: em(16) em(20);

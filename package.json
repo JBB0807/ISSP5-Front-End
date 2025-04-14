@@ -1,5 +1,5 @@
 {
-  "name": "ISSP5-Front-End",
+  "name": "issp5-front-end",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.27.0",
+    "sass": "^1.86.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
