@@ -1,20 +1,20 @@
 // Imports
 
 // Resets and base styling
-@use './base/reset';
-@use './base/type';
-@use './base/main';
-
+@use "./base/reset";
+@use "./base/type";
+@use "./base/main";
 
 // Components
-@use './components/header';
-@use './components/footer';
+@use "./components/header";
+@use "./components/footer";
 
 //page specific styling
-@use './page//home';
+@use "./page//home";
+@use "./page//login";
 
 // Utilities
-@use './utilities/utility-classes';
+@use "./utilities/utility-classes";
 
 // Google Fonts - Import
-@import url('https://fonts.googleapis.com/css?family=Alatsi|Roboto:400,400i,700,700i&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Alatsi|Roboto:400,400i,700,700i&display=swap");
