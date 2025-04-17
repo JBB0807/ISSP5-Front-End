@@ -3,9 +3,31 @@
 @use '../base/settings' as *;
 @use '../utilities/mixins' as *;
 
-header {
-    padding: $section-padding;
-    h1 {
-        @include flatten;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+  
+    .logo {
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #3a3a3a;
     }
-}
+  
+    .nav {
+      a {
+        margin-left: 2rem;
+        text-decoration: none;
+        color: #202020;
+        font-weight: 500;
+  
+        &:last-child::before {
+          content: '● ';
+          color: #ce9a76;
+          margin-right: 0.4rem;
+        }
+      }
+    }
+  }
+  
