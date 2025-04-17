@@ -3,43 +3,31 @@
 @use "../base/settings" as *;
 @use "../utilities/mixins" as *;
 
-header {
-  padding: $section-padding;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid $grey;
-
-  h1 {
-    @include flatten;
-
-    a {
-      text-decoration: none;
-      color: $dark;
-
-      &:hover {
-        color: $yellow;
-      }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+  
+    .logo {
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #3a3a3a;
     }
-  }
-
-  nav {
-    ul {
-      @include flatten(true);
-      display: flex;
-      gap: 1rem;
-
-      li {
-        a {
-          text-decoration: none;
-          color: $dark;
-          font-weight: bold;
-
-          &:hover {
-            color: $yellow;
-          }
+  
+    .nav {
+      a {
+        margin-left: 2rem;
+        text-decoration: none;
+        color: #202020;
+        font-weight: 500;
+  
+        &:last-child::before {
+          content: '● ';
+          color: #ce9a76;
+          margin-right: 0.4rem;
         }
       }
     }
   }
-}
+  

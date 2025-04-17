@@ -1,0 +1,100 @@
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 3rem;
+    background-color: #f9f5f2;
+  
+    .hero-text {
+      max-width: 50%;
+    //   font-family: "Limelight", sans-serif;
+  
+      .intro {
+        font-size: 1rem;
+      }
+  
+      h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        margin: 1rem 0;
+      }
+  
+      .desc {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+      }
+  
+      .cta {
+        background-color: #ffcc3a;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 #000;
+      }
+    }
+  
+    .hero-image {
+      position: relative;
+  
+    //   .hex-bg {
+    //     width: 500px;
+    //     height: auto;
+    //     background-color: #2900F5;
+    //     padding: 3rem;
+    //     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    //     box-shadow: 6px 6px 0 #000;
+  
+        img {
+          width: 70%;
+          border-radius: 6px;
+        }
+      }
+  
+      .tag {
+        position: absolute;
+        top: -2rem;
+        right: 0;
+        background: #b1b9f9;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+  
+      .icon {
+        position: absolute;
+        font-size: 2rem;
+  
+        &.top-left {
+          top: -2rem;
+          left: -2rem;
+          background: #00c2a8;
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+        }
+  
+        &.bottom-right {
+          bottom: -2rem;
+          right: -2rem;
+          background: #ffdf4f;
+          padding: 0.5rem;
+          border-radius: 50%;
+        }
+      }
+  
+      .freelance-tag {
+        position: absolute;
+        bottom: -1.5rem;
+        left: 0;
+        background: #00d18c;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+    }
+
+  

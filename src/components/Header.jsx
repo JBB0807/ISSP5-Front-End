@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 const Header = () => {
+<<<<<<< HEAD
   return (
     <header>
       <h1>
@@ -22,5 +23,14 @@ const Header = () => {
     </header>
   );
 };
+=======
+  
+    return (
+        <header>
+            <h1><a href="#0"></a></h1>
+        </header>
+    );
+}
+>>>>>>> homepage
 
 export default Header;
