@@ -22,17 +22,16 @@ const AppRouter = () => {
         {/* <Header /> */}
         <Navbar />
         <Routes>
+          
           <Route
             path="/"
             element={
-              // <ProtectedRoute>
-
+              <>
               <Hero />
-
-              // </ProtectedRoute>
+              <Services />
+              </>
             }
           />
-          {/* <Services /> */}
           <Route path="login" element={<LoginPage />} />
           <Route
             path="editor"
@@ -44,7 +43,7 @@ const AppRouter = () => {
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Services />
+        
         <Footer />
       </div>
     </BrowserRouter>
