@@ -8,9 +8,7 @@ import Services from "./components/Services";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Navbar />
-    <Hero />
-    <Services />
+    
     <AppRouter />
     
   </StrictMode>

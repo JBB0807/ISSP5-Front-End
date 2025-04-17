@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import PageCodeEditor from "../pages/CodeEditor";
 import PageNotFound from "../pages/PageNotFound";
+import Hero from "../components/Hero";
 
 const AppRouter = () => {
   return (
@@ -18,17 +19,17 @@ const AppRouter = () => {
       <div className="wrapper">
         <Header />
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
+        <Route
             path="/"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <Hero/>
               </ProtectedRoute>
             }
           />
+          <Route path="login" element={<LoginPage />} />
           <Route
-            path="/editor"
+            path="editor"
             element={
               <ProtectedRoute>
                 <PageCodeEditor />
