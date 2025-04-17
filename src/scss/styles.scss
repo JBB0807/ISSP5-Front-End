@@ -12,6 +12,7 @@
 //page specific styling
 @use "./page//home";
 @use "./page//login";
+@use "./page/code_editor";
 
 // Utilities
 @use "./utilities/utility-classes";

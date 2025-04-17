@@ -9,6 +9,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 // Pages
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import PageCodeEditor from "../pages/CodeEditor";
 import PageNotFound from "../pages/PageNotFound";
 
 const AppRouter = () => {
@@ -23,6 +24,14 @@ const AppRouter = () => {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editor"
+            element={
+              <ProtectedRoute>
+                <PageCodeEditor />
               </ProtectedRoute>
             }
           />
