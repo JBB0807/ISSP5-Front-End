@@ -12,21 +12,27 @@ import LoginPage from "../pages/LoginPage";
 import PageCodeEditor from "../pages/CodeEditor";
 import PageNotFound from "../pages/PageNotFound";
 import Hero from "../components/Hero";
+import Navbar from "../components/Navbar";
+import Services from "../components/Services";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header />
+        {/* <Header /> */}
+        <Navbar />
         <Routes>
-        <Route
+          <Route
             path="/"
             element={
-              <ProtectedRoute>
-                <Hero/>
-              </ProtectedRoute>
+              // <ProtectedRoute>
+
+              <Hero />
+
+              // </ProtectedRoute>
             }
           />
+          {/* <Services /> */}
           <Route path="login" element={<LoginPage />} />
           <Route
             path="editor"
@@ -38,6 +44,7 @@ const AppRouter = () => {
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <Services />
         <Footer />
       </div>
     </BrowserRouter>
