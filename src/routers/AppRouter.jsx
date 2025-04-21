@@ -19,22 +19,20 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        {/* <Header /> */}
         <Navbar />
         <Routes>
-          
           <Route
             path="/"
             element={
               <>
-              <Hero />
-              <Services />
+                <Hero />
+                <Services />
               </>
             }
           />
-          <Route path="login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
-            path="editor"
+            path="/editor"
             element={
               <ProtectedRoute>
                 <PageCodeEditor />
@@ -43,7 +41,7 @@ const AppRouter = () => {
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        
+
         <Footer />
       </div>
     </BrowserRouter>
