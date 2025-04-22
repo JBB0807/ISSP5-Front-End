@@ -14,6 +14,7 @@ import PageNotFound from "../pages/PageNotFound";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
+import AssignmentPage from "../pages/AssignmentPage";
 
 const AppRouter = () => {
   return (
@@ -32,6 +33,14 @@ const AppRouter = () => {
               </>
             }
           />
+            <Route
+              path="assignment"
+              element={
+                // <ProtectedRoute role="instructor">
+                  <AssignmentPage />
+                // </ProtectedRoute>
+              }
+            />
           <Route path="login" element={<LoginPage />} />
           <Route
             path="editor"
@@ -41,6 +50,7 @@ const AppRouter = () => {
               </ProtectedRoute>
             }
           />
+          
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         
