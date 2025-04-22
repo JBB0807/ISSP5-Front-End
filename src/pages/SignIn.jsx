@@ -14,6 +14,10 @@ function SignInForm() {
     });
   };
 
+  const googleAuth = () => {
+    window.open("https://byte-camp-auth-service.fly.dev/auth/google", "_self");
+  };
+
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
@@ -33,11 +37,11 @@ function SignInForm() {
       <form onSubmit={handleOnSubmit}>
         <h1>Sign in</h1>
         <div className="social-container">
-          <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
+          <a className="social" onClick={googleAuth}>
+            <i className="fab fa-google-plus-g" />
           </a>
           <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
+            <i className="fab fa-facebook-f" />
           </a>
           <a href="#" className="social">
             <i className="fab fa-linkedin-in" />
