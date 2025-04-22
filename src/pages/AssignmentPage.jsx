@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import "../scss/components/_assignment.scss";
 
 const AssignmentPage = () => {
+  const [studentName, setStudentName] = useState("");
+  const [campID, setCampID] = useState("");
+  const [programID, setProgramID] = useState("");
+  const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
@@ -9,34 +13,54 @@ const AssignmentPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const resetForm = () => {
+    setStudentName("");
+    setCampID("");
+    setProgramID("");
+    setPassword("");
+    setTitle("");
+    setDescription("");
+    setFile(null);
+    setEditingIndex(null);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("file", file);
+    const newProject = {
+      studentName,
+      campID,
+      programID,
+      title,
+      description,
+      fileName: file ? file.name : null,
+    };
 
-    try {
-      const res = await fetch("/api/assignments", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        alert("Successfully Uploaded!");
-        setProjects([...projects, { title, description }]);
-        setTitle("");
-        setDescription("");
-        setFile(null);
-        setShowModal(false);
-      } else {
-        alert("Fail Uploading!");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Server Error!");
+    if (editingIndex !== null) {
+      // Edit mode: update the project at the index
+      const updatedProjects = [...projects];
+      updatedProjects[editingIndex] = newProject;
+      setProjects(updatedProjects);
+    } else {
+      // New submission
+      setProjects([...projects, newProject]);
     }
+
+    alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
+    resetForm();
+    setShowModal(false);
+  };
+
+  const handleEdit = (index) => {
+    const project = projects[index];
+    setStudentName(project.studentName);
+    setCampID(project.campID);
+    setProgramID(project.programID);
+    setTitle(project.title);
+    setDescription(project.description);
+    setFile(null); // File can't be set again for editing, usually. You could add note about this.
+    setEditingIndex(index);
+    setShowModal(true);
   };
 
   const handleDelete = (index) => {
@@ -47,13 +71,53 @@ const AssignmentPage = () => {
   return (
     <div className="assignment-page">
       <h2>📘 Assignments</h2>
-      <button onClick={() => setShowModal(true)}>➕ Create New</button>
+      <button onClick={() => { resetForm(); setShowModal(true); }}>➕ Add New</button>
 
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>{editingIndex !== null ? "Edit Assignment" : "New Assignment"}</h3>
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Student Name</label>
+                <input
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Camp ID</label>
+                <input
+                  type="text"
+                  value={campID}
+                  onChange={(e) => setCampID(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Program ID</label>
+                <input
+                  type="text"
+                  value={programID}
+                  onChange={(e) => setProgramID(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
               <div>
                 <label>Assignment Title</label>
                 <input
@@ -74,23 +138,20 @@ const AssignmentPage = () => {
               </div>
 
               <div>
-                <label>File Upload</label>
+                <label>File Upload (optional)</label>
                 <input
                   type="file"
                   onChange={(e) => setFile(e.target.files[0])}
-                  required
                 />
               </div>
 
               <div className="modal-buttons">
-                <button type="submit">Upload</button>
+                <button type="submit">{editingIndex !== null ? "Update" : "Submit"}</button>
                 <button
                   type="button"
                   onClick={() => {
+                    resetForm();
                     setShowModal(false);
-                    setTitle("");
-                    setDescription("");
-                    setFile(null);
                   }}
                 >
                   Cancel
@@ -102,16 +163,27 @@ const AssignmentPage = () => {
       )}
 
       <div className="project-list">
-        <h3>📋 Projects</h3>
-        {projects.map((project, index) => (
-          <div key={index} className="project-item">
-            <h4>{project.title}</h4>
-            <p>{project.description}</p>
-            <button onClick={() => alert("Edit not implemented in modal mode")}>✏️ Edit</button>
-            <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-          </div>
-        ))}
+  <h3>📋 Projects</h3>
+  {projects.map((project, index) => (
+    <div key={index} className="project-item">
+      <div className="project-meta">
+        <strong>Student Name: {project.studentName}</strong> | CampID: {project.campID} | ProgramID: {project.programID}
       </div>
+      <h4>{project.title}</h4>
+      <p>{project.description}</p>
+      {project.fileName && (
+        <p><strong>Uploaded File:</strong> {project.fileName}</p>
+      )}
+
+      <div className="action-buttons">
+        <button onClick={() => handleEdit(index)}>✏️ Edit</button>
+        <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
+        <button onClick={() => alert("QR feature coming soon!")}>📎 QR</button>
+      </div>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };
