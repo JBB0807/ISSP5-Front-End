@@ -16,6 +16,7 @@ import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
 
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -31,7 +32,15 @@ const AppRouter = () => {
               </>
             }
           />
-          <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="assignment"
+              element={
+                // <ProtectedRoute role="instructor">
+                  <AssignmentPage />
+                // </ProtectedRoute>
+              }
+            />
+          <Route path="login" element={<LoginPage />} />
           <Route
             path="/editor"
             element={
@@ -40,7 +49,7 @@ const AppRouter = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/assignment" element={<AssignmentPage />} />
+          
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 

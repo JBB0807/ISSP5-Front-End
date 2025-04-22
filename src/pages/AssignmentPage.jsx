@@ -1,107 +1,191 @@
-// Page - Assignment
-import { useEffect, useState } from 'react';
-import '../scss/styles.scss';
+import React, { useState } from "react";
+import "../scss/components/_assignment.scss";
 
 const AssignmentPage = () => {
-    const [files, setFiles] = useState([]);
-    
-    useEffect(() => {
-        document.title = 'Assignment';
-    }, []);
+  const [studentName, setStudentName] = useState("");
+  const [campID, setCampID] = useState("");
+  const [programID, setProgramID] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [file, setFile] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
 
-    const handleFileChange = (e) => {
-        if (e.target.files) {
-            const newFiles = Array.from(e.target.files);
-            setFiles(prevFiles => [...prevFiles, ...newFiles]);
-        }
+  const resetForm = () => {
+    setStudentName("");
+    setCampID("");
+    setProgramID("");
+    setPassword("");
+    setTitle("");
+    setDescription("");
+    setFile(null);
+    setEditingIndex(null);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newProject = {
+      studentName,
+      campID,
+      programID,
+      title,
+      description,
+      fileName: file ? file.name : null,
     };
 
-    const handleRemoveFile = (index) => {
-        setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    };
+    if (editingIndex !== null) {
+      // Edit mode: update the project at the index
+      const updatedProjects = [...projects];
+      updatedProjects[editingIndex] = newProject;
+      setProjects(updatedProjects);
+    } else {
+      // New submission
+      setProjects([...projects, newProject]);
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Here you would typically send the files to a server
-        console.log('Files to submit:', files);
-        alert('Assignment submitted successfully!');
-    };
+    alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
+    resetForm();
+    setShowModal(false);
+  };
 
-    return (
-        <main className="assignment-page">
-            <section>
-                <div className="assignment-header">
-                    <h2>Assignment Submission</h2>
-                    <div className="due-date">
-                        <p>Due on Jan 16, 2025 11:59 PM</p>
-                    </div>
-                </div>
-                
-                <div className="assignment-container">
-                    <div className="assignment-info">
-                        <h3>Submit Assignment</h3>
-                        <p className="files-count">({files.length}) file(s) to submit</p>
-                        <p className="submission-note">After uploading, you must click Submit to complete the submission.</p>
-                    </div>
-                    
-                    <div className="file-upload-section">
-                        <div className="upload-buttons">
-                            <label className="file-upload-btn">
-                                <input 
-                                    type="file" 
-                                    multiple 
-                                    onChange={handleFileChange} 
-                                    style={{ display: 'none' }}
-                                />
-                                Add a File
-                            </label>
-                            <button className="record-audio-btn">Record Audio</button>
-                            <button className="record-video-btn">Record Video</button>
-                        </div>
-                        
-                        {files.length > 0 && (
-                            <div className="files-list">
-                                <h4>Selected Files:</h4>
-                                <ul>
-                                    {files.map((file, index) => (
-                                        <li key={index} className="file-item">
-                                            <span className="file-name">{file.name}</span>
-                                            <span className="file-size">({(file.size / 1024).toFixed(2)} KB)</span>
-                                            <button 
-                                                className="remove-file-btn"
-                                                onClick={() => handleRemoveFile(index)}
-                                            >
-                                                Remove
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className="comments-section">
-                        <h4>Comments</h4>
-                        <textarea 
-                            placeholder="Add a comment (optional)"
-                            rows="4"
-                        ></textarea>
-                    </div>
-                    
-                    <div className="submission-buttons">
-                        <button 
-                            className="submit-btn"
-                            onClick={handleSubmit}
-                            disabled={files.length === 0}
-                        >
-                            Submit
-                        </button>
-                        <button className="cancel-btn">Cancel</button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    );
+  const handleEdit = (index) => {
+    const project = projects[index];
+    setStudentName(project.studentName);
+    setCampID(project.campID);
+    setProgramID(project.programID);
+    setTitle(project.title);
+    setDescription(project.description);
+    setFile(null); // File can't be set again for editing, usually. You could add note about this.
+    setEditingIndex(index);
+    setShowModal(true);
+  };
+
+  const handleDelete = (index) => {
+    const updated = projects.filter((_, i) => i !== index);
+    setProjects(updated);
+  };
+
+  return (
+    <div className="assignment-page">
+      <h2>📘 Assignments</h2>
+      <button onClick={() => { resetForm(); setShowModal(true); }}>➕ Add New</button>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>{editingIndex !== null ? "Edit Assignment" : "New Assignment"}</h3>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Student Name</label>
+                <input
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Camp ID</label>
+                <input
+                  type="text"
+                  value={campID}
+                  onChange={(e) => setCampID(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Program ID</label>
+                <input
+                  type="text"
+                  value={programID}
+                  onChange={(e) => setProgramID(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Assignment Title</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Description</label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                ></textarea>
+              </div>
+
+              <div>
+                <label>File Upload (optional)</label>
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+              </div>
+
+              <div className="modal-buttons">
+                <button type="submit">{editingIndex !== null ? "Update" : "Submit"}</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setShowModal(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <div className="project-list">
+  <h3>📋 Projects</h3>
+  {projects.map((project, index) => (
+    <div key={index} className="project-item">
+      <div className="project-meta">
+        <strong>Student Name: {project.studentName}</strong> | CampID: {project.campID} | ProgramID: {project.programID}
+      </div>
+      <h4>{project.title}</h4>
+      <p>{project.description}</p>
+      {project.fileName && (
+        <p><strong>Uploaded File:</strong> {project.fileName}</p>
+      )}
+
+      <div className="action-buttons">
+        <button onClick={() => handleEdit(index)}>✏️ Edit</button>
+        <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
+        <button onClick={() => alert("QR feature coming soon!")}>📎 QR</button>
+      </div>
+    </div>
+  ))}
+</div>
+
+    </div>
+  );
 };
 
 export default AssignmentPage;
