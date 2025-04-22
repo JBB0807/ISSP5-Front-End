@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import PageCodeEditor from "../pages/CodeEditor";
 import PageNotFound from "../pages/PageNotFound";
+import AssignmentPage from "../pages/AssignmentPage";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
@@ -39,6 +40,7 @@ const AppRouter = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/assignment" element={<AssignmentPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 
