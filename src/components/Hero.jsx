@@ -6,10 +6,10 @@ function Hero() {
   return (
     <section className="hero">
       <div className="hero-text">
-        <p className="intro">Welcome to BattleSnake!!!</p>
+        <p className="intro">Welcome to Bytecamp!!!</p>
         <h1>Play for Fun!</h1>
         <p className="desc">
-          A competitive game where your code is the controller. All you need is
+          A competitive game where your code is the controller.<br /> All you need is
           a web server that responds to the Battlesnake API.
         </p>
         <button className="cta">Start Battle</button>

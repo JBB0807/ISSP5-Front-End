@@ -18,7 +18,7 @@ function SignUpForm() {
 
     const { name, email, password } = state;
     alert(
-      `You are sign up with name: ${name} email: ${email} and password: ${password}`
+      `You are signed in with name: ${name} email: ${email} and password: ${password}`
     );
 
     for (const key in state) {
@@ -32,16 +32,10 @@ function SignUpForm() {
   return (
     <div className="form-container sign-up-container">
       <form onSubmit={handleOnSubmit}>
-        <h1>Create Account</h1>
+        <h1>Instructor</h1>
         <div className="social-container">
           <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
-          </a>
-          <a href="#" className="social">
             <i className="fab fa-google-plus-g" />
-          </a>
-          <a href="#" className="social">
-            <i className="fab fa-linkedin-in" />
           </a>
         </div>
         <span>or use your email for registration</span>
@@ -66,7 +60,7 @@ function SignUpForm() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button>Sign Up</button>
+        <button>Sign in</button>
       </form>
     </div>
   );
