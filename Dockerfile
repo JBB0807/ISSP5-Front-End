@@ -13,7 +13,7 @@ RUN npm run build
 FROM nginx:stable-alpine
 
 # Copy built React files into nginx public folder
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
