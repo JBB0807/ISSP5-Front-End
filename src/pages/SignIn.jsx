@@ -31,22 +31,16 @@ function SignInForm() {
   return (
     <div className="form-container sign-in-container">
       <form onSubmit={handleOnSubmit}>
-        <h1>Sign in</h1>
-        <div className="social-container">
-          <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
-          </a>
+        <h1>Student</h1>
+        {/* <div className="social-container">
           <a href="#" className="social">
             <i className="fab fa-google-plus-g" />
           </a>
-          <a href="#" className="social">
-            <i className="fab fa-linkedin-in" />
-          </a>
-        </div>
-        <span>or use your account</span>
+        </div> */}
+
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Student Name"
           name="email"
           value={state.email}
           onChange={handleChange}
@@ -58,7 +52,7 @@ function SignInForm() {
           value={state.password}
           onChange={handleChange}
         />
-        <a href="#">Forgot your password?</a>
+
         <button>Sign In</button>
       </form>
     </div>
