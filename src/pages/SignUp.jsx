@@ -29,12 +29,16 @@ function SignUpForm() {
     }
   };
 
+  const googleAuth = () => {
+    window.open("https://byte-camp-auth-service.fly.dev/auth/google", "_self");
+  };
+
   return (
     <div className="form-container sign-up-container">
       <form onSubmit={handleOnSubmit}>
         <h1>Instructor</h1>
         <div className="social-container">
-          <a href="#" className="social">
+          <a href="#" className="social" onClick={googleAuth}>
             <i className="fab fa-google-plus-g" />
           </a>
         </div>
