@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import PageCodeEditor from "../pages/CodeEditor";
 import PageNotFound from "../pages/PageNotFound";
+import AssignmentPage from "../pages/AssignmentPage";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
@@ -19,32 +20,30 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        {/* <Header /> */}
         <Navbar />
         <Routes>
           <Route
             path="/"
             element={
-              // <ProtectedRoute>
-
-              <Hero />
-
-              // </ProtectedRoute>
+              <>
+                <Hero />
+                <Services />
+              </>
             }
           />
-          {/* <Services /> */}
-          <Route path="login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
-            path="editor"
+            path="/editor"
             element={
               <ProtectedRoute>
                 <PageCodeEditor />
               </ProtectedRoute>
             }
           />
+          <Route path="/assignment" element={<AssignmentPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Services />
+
         <Footer />
       </div>
     </BrowserRouter>
