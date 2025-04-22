@@ -15,7 +15,7 @@ import AssignmentPage from "../pages/AssignmentPage";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
-import AssignmentPage from "../pages/AssignmentPage";
+
 
 const AppRouter = () => {
   return (
