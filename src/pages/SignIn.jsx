@@ -14,10 +14,6 @@ function SignInForm() {
     });
   };
 
-  const googleAuth = () => {
-    window.open("https://byte-camp-auth-service.fly.dev/auth/google", "_self");
-  };
-
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
