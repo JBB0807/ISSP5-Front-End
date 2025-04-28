@@ -44,9 +44,9 @@ const AppRouter = () => {
           <Route
             path="/editor"
             element={
-              <ProtectedRoute>
+//              <ProtectedRoute>
                 <PageCodeEditor />
-              </ProtectedRoute>
+  //            </ProtectedRoute>
             }
           />
           
