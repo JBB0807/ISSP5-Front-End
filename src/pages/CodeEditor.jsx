@@ -5,8 +5,13 @@ import { javascript } from "@codemirror/lang-javascript";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import EditorPanel from "../components/EditorPanel";
+import PreviewPanel from "../components/PreviewPanel";
 
 const PageCodeEditor = () => {
+
+  const [code, setCode] = useState(`# Write your Battlesnake code here\ndef move(board):\n    return { 'move': 'up' }`);
+
   // State for storing code in different tabs
   const [htmlCode, setHtmlCode] = useState(
     "<div>\n  <h1>Hello World</h1>\n  <p>Start editing to see some magic happen!</p>\n</div>"
@@ -78,6 +83,14 @@ const PageCodeEditor = () => {
 
   return (
     <main className="code-editor-page">
+
+      <div className="editor-section">
+          <EditorPanel code={code} onChange={setCode} />
+      </div>
+      <div className="preview-section">
+          <PreviewPanel code={code} />
+      </div>
+
       <div className="editor-container">
         <div className="editor-tabs">
           <button
