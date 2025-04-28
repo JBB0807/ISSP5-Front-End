@@ -1,44 +1,195 @@
+// Cyberpunk color variables
+$neon-pink: #ff2a6d;
+$neon-blue: #05d9e8;
+$neon-purple: #d300c5;
+$neon-yellow: #f7f500;
+$dark-bg: #0d0221;
+$cyber-black: #1a1a1a;
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 $neon-blue, -0.05em -0.025em 0 $neon-pink;
+    clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%, 0 30%, 100% 30%, 100% 50%, 0 50%, 0 60%, 100% 60%, 100% 75%, 0 75%, 0 100%, 100% 100%);
+  }
+  25% {
+    text-shadow: -0.05em -0.025em 0 $neon-blue, 0.025em 0.025em 0 $neon-pink;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%, 0 65%, 100% 65%, 100% 85%, 0 85%, 0 100%, 100% 100%);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 $neon-blue, -0.05em -0.05em 0 $neon-pink;
+    clip-path: polygon(0 0, 100% 0, 100% 15%, 0 15%, 0 40%, 100% 40%, 100% 55%, 0 55%, 0 70%, 100% 70%, 100% 100%, 0 100%);
+  }
+  75% {
+    text-shadow: -0.05em -0.025em 0 $neon-blue, 0.025em 0.025em 0 $neon-pink;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%, 0 50%, 100% 50%, 100% 70%, 0 70%, 0 80%, 100% 80%, 100% 100%, 0 100%);
+  }
+  100% {
+    text-shadow: 0.05em 0 0 $neon-blue, -0.05em -0.025em 0 $neon-pink;
+    clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%, 0 30%, 100% 30%, 100% 50%, 0 50%, 0 60%, 100% 60%, 100% 75%, 0 75%, 0 100%, 100% 100%);
+  }
+}
+
+@keyframes neon-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    filter: drop-shadow(0 0 1px rgba($neon-pink, 0.95))
+           drop-shadow(0 0 4px rgba($neon-pink, 0.6))
+           drop-shadow(0 0 8px rgba($neon-pink, 0.4));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    filter: none;
+  }
+}
+
+@keyframes hover-glow {
+  0% {
+    box-shadow: 0 0 5px $neon-blue, 0 0 10px $neon-blue, 0 0 15px $neon-blue, 0 0 20px $neon-blue;
+  }
+  100% {
+    box-shadow: 0 0 10px $neon-blue, 0 0 20px $neon-blue, 0 0 30px $neon-blue, 0 0 40px $neon-blue;
+  }
+}
+
 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba($cyber-black, 0.85);
+  padding: 0.8rem 2rem;
+  color: white;
+  box-shadow: 0 0 10px $neon-purple, 0 0 20px rgba($neon-purple, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  border-bottom: 1px solid $neon-pink;
+  backdrop-filter: blur(5px);
+  
+  // Glitch effect for the navbar
+  &--glitch {
+    animation: glitch 0.2s linear;
+  }
+
+  &__logo {
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: bold;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #f9f5f2;
-    padding: 1rem 2rem;
-    color: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-  
-    &__logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #91a8ed;
+    overflow: hidden;
+    padding: 0.5rem 1rem;
+    border: 1px solid $neon-pink;
+    border-radius: 4px;
+    background-color: rgba($dark-bg, 0.7);
+    
+    &-text {
+      color: white;
+      letter-spacing: 2px;
+      animation: neon-flicker 5s infinite alternate;
     }
-  
-    &__links {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-      margin: 0;
-  
-      @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 1rem;
+    
+    &-highlight {
+      color: $neon-pink;
+      text-shadow: 0 0 5px $neon-pink, 0 0 10px $neon-pink;
+    }
+    
+    &-scanner {
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, $neon-blue, transparent);
+      animation: scanline 2s linear infinite;
+    }
+  }
+
+  &__links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    
+    li {
+      position: relative;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    
+    &-icon {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+    
+    &-text {
+      position: relative;
+      z-index: 2;
+    }
+    
+    &-hover {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: $neon-blue;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+      color: $neon-blue;
+      text-shadow: 0 0 5px rgba($neon-blue, 0.7);
+      
+      .navbar__link-hover {
+        transform: scaleX(1);
+        box-shadow: 0 0 10px $neon-blue, 0 0 20px $neon-blue;
       }
     }
-  
-    &__link {
-      text-decoration: none;
-      color: #91a8ed;
-      font-weight: 500;
-      transition: color 0.2s;
-  
+    
+    &--active {
+      color: $neon-pink;
+      text-shadow: 0 0 5px rgba($neon-pink, 0.7);
+      border: 1px solid $neon-pink;
+      background-color: rgba($neon-pink, 0.1);
+      
       &:hover {
-        color: #6888E9;
+        color: $neon-pink;
+      }
+      
+      .navbar__link-hover {
+        background-color: $neon-pink;
+        transform: scaleX(1);
+        box-shadow: 0 0 10px $neon-pink, 0 0 20px $neon-pink;
       }
     }
   }
-  
+}
