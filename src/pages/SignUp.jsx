@@ -1,5 +1,8 @@
 import React from "react";
 function SignUpForm() {
+  const authUrl = import.meta.env.VITE_AUTH_URL;
+
+
   const [state, setState] = React.useState({
     name: "",
     email: "",
@@ -30,7 +33,8 @@ function SignUpForm() {
   };
 
   const googleAuth = () => {
-    window.open("https://byte-camp-auth-service.fly.dev/auth/google", "_self");
+    
+    window.open(authUrl, "_self");
   };
 
   return (
