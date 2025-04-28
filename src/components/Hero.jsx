@@ -13,6 +13,20 @@ function Hero() {
         cursor.style.top = `${e.clientY}px`;
       }
     };
+    async function fetchUser() {
+      const res = await fetch("http://localhost:3000/api/current_user", {
+        credentials: "include", // very important
+      });
+      if (res.ok) {
+        const user = await res.json();
+        console.log("User display name:", user.displayName);
+
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    }
+    fetchUser();
 
     window.addEventListener("mousemove", handleMouseMove);
 
