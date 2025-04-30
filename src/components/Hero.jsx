@@ -13,20 +13,6 @@ function Hero() {
         cursor.style.top = `${e.clientY}px`;
       }
     };
-    async function fetchUser() {
-      const res = await fetch("http://localhost:3000/api/current_user", {
-        credentials: "include", // very important
-      });
-      if (res.ok) {
-        const user = await res.json();
-        console.log("User display name:", user.displayName);
-
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    }
-    fetchUser();
 
     window.addEventListener("mousemove", handleMouseMove);
 
@@ -141,7 +127,7 @@ function Hero() {
       <div className="hero-content">
         <div className="hero-logo-container">
           <img
-            src="/images/battlesnake-neon-logo.jpg"
+            src="/images/battlesnake-neon-logo.GIF"
             alt="BattleSnake Neon Logo"
             className="hero-logo"
           />

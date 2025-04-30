@@ -7,12 +7,6 @@ const PageHome = () => {
   }, []);
   const [user, setUser] = useState(null);
 
-  //   useEffect(() => {
-  //     if (user) {
-  //       console.log(`Welcome, ${user.displayName || "Guest"}!`);
-  //     }
-  //   }, [user]);
-
   return (
     <div className="homepage-container">
       <main>

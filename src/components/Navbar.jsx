@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [glitchEffect, setGlitchEffect] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Set active link based on current path
@@ -16,6 +17,22 @@ const Navbar = () => {
       setGlitchEffect(true);
       setTimeout(() => setGlitchEffect(false), 200);
     }, 3000);
+    async function fetchUser() {
+      const res = await fetch("http://localhost:8080/auth/current_user", {
+        credentials: "include", // very important
+      });
+      if (res.ok) {
+        console.log("User response:", res);
+        const user = await res.json();
+        console.log("User:", user);
+        console.log("User display name:", user.displayName);
+
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    }
+    fetchUser();
 
     return () => clearInterval(glitchInterval);
   }, []);
@@ -28,6 +45,13 @@ const Navbar = () => {
           BATTLE<span className="navbar__logo-text">SNAKE</span>
         </span>
       </div>
+
+      {user && (
+        <div className="navbar__greeting">
+          <span className="navbar__greeting-text">WELCOME</span>
+          <span className="navbar__greeting-name">{user.displayName}</span>
+        </div>
+      )}
 
       <ul className="navbar__links">
         <li>
@@ -42,7 +66,8 @@ const Navbar = () => {
             <span className="navbar__link-hover"></span>
           </Link>
         </li>
-        <li>
+        {/* will be decided later of we shall keep NOTEBOOK or not */}
+        {/* <li>
           <Link
             to="/notebook"
             className={`navbar__link ${
@@ -50,10 +75,11 @@ const Navbar = () => {
             }`}
           >
             <span className="navbar__link-icon">📓</span>
-            <span className="navbar__link-text">NOTEBOOK</span>
+            <span className="navbar__link-text"></span>
+            NOTEBOOK
             <span className="navbar__link-hover"></span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to="/assignment"
@@ -96,3 +122,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+//{user ? user.displayName : "NOTEBOOK"}
