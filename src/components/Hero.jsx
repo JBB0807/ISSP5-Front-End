@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "../scss/components/Hero.scss";
+import "../scss/components/_hero.scss";
 
 function Hero() {
   const canvasRef = useRef(null);
@@ -125,6 +125,22 @@ function Hero() {
       <div className="hero-glitch-lines"></div>
 
       <div className="hero-content">
+        <div className="hero-text-container">
+          <h1 className="hero-title">
+            BATTLE<span className="hero-title-highlight">SNAKE</span>
+          </h1>
+          <p className="hero-subtitle">
+            Enter the digital arena and code your way to victory
+          </p>
+
+          <div className="hero-cta-container">
+            <button className="hero-cta">
+              <span className="hero-cta-text">START BATTLE</span>
+              <span className="hero-cta-glitch"></span>
+            </button>
+          </div>
+        </div>
+
         <div className="hero-logo-container">
           <img
             src="/images/battlesnake-neon-logo.GIF"
@@ -132,13 +148,6 @@ function Hero() {
             className="hero-logo"
           />
           <div className="hero-logo-glow"></div>
-        </div>
-
-        <div className="hero-cta-container">
-          <button className="hero-cta">
-            <span className="hero-cta-text">START BATTLE</span>
-            <span className="hero-cta-glitch"></span>
-          </button>
         </div>
       </div>
 

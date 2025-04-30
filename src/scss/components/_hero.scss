@@ -145,28 +145,89 @@ $cyber-black: #1a1a1a;
   &-content {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     z-index: 2;
     width: 100%;
     max-width: 1200px;
     padding: 2rem;
     // Add a subtle backdrop filter to make content more readable against the matrix rain
     backdrop-filter: blur(2px);
+    
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+      gap: 2rem;
+    }
   }
 
+  // Text container styling
+  &-text-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-right: 2rem;
+    
+    @media (max-width: 768px) {
+      align-items: center;
+      text-align: center;
+      padding-right: 0;
+    }
+  }
+  
+  // Title styling
+  &-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba($neon-blue, 0.7);
+    animation: flicker 3s infinite alternate;
+    
+    &-highlight {
+      color: $neon-pink;
+      text-shadow: 0 0 10px rgba($neon-pink, 0.7);
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  // Subtitle styling
+  &-subtitle {
+    font-size: 1.2rem;
+    color: rgba(white, 0.8);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+  
   // Logo styling
   &-logo-container {
     position: relative;
-    margin-bottom: 3rem;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 50%;
+    
+    @media (max-width: 768px) {
+      max-width: 80%;
+      margin-bottom: 1rem;
+    }
   }
 
   &-logo {
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
     border-radius: 8px;
     filter: drop-shadow(0 0 10px rgba($neon-blue, 0.7))
@@ -191,8 +252,8 @@ $cyber-black: #1a1a1a;
 
   // CTA button styling
   &-cta-container {
-    margin-top: 2rem;
     position: relative;
+    margin-top: 1rem;
   }
 
   &-cta {

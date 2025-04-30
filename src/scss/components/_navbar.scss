@@ -6,6 +6,9 @@ $neon-yellow: #f7f500;
 $dark-bg: #0d0221;
 $cyber-black: #1a1a1a;
 
+// Breakpoints
+$mobile-breakpoint: 768px;
+
 @keyframes scanline {
   0% {
     transform: translateY(-100%);
@@ -105,6 +108,29 @@ $cyber-black: #1a1a1a;
   }
 }
 
+@keyframes hamburger-pulse {
+  0% {
+    box-shadow: 0 0 5px $neon-pink, 0 0 10px $neon-pink;
+  }
+  50% {
+    box-shadow: 0 0 8px $neon-pink, 0 0 15px $neon-pink, 0 0 20px $neon-pink;
+  }
+  100% {
+    box-shadow: 0 0 5px $neon-pink, 0 0 10px $neon-pink;
+  }
+}
+
+@keyframes menu-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes neon-flicker {
   0%,
   19.999%,
@@ -156,6 +182,7 @@ $cyber-black: #1a1a1a;
   width: 100%;
   border-bottom: 1px solid $neon-pink;
   backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
 
   // Glitch effect for the navbar
   &--glitch {
@@ -194,6 +221,53 @@ $cyber-black: #1a1a1a;
     }
   }
 
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+
+    @media (max-width: $mobile-breakpoint) {
+      display: flex;
+    }
+
+    &-line {
+      width: 100%;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 5px $neon-pink, 0 0 10px $neon-pink;
+
+      &.active {
+        &:nth-child(1) {
+          transform: translateY(9.5px) rotate(45deg);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+
+        &:nth-child(3) {
+          transform: translateY(-9.5px) rotate(-45deg);
+        }
+      }
+    }
+
+    &:hover {
+      .navbar__hamburger-line {
+        animation: hamburger-pulse 1.5s infinite;
+        box-shadow: 0 0 10px $neon-blue, 0 0 20px $neon-blue;
+      }
+    }
+  }
+
   &__greeting {
     display: flex;
     flex-direction: column;
@@ -207,6 +281,10 @@ $cyber-black: #1a1a1a;
     left: 40%;
     transform: translateX(-50%);
     overflow: hidden;
+
+    @media (max-width: $mobile-breakpoint) {
+      display: none;
+    }
 
     &-text {
       color: $neon-blue;
@@ -241,14 +319,50 @@ $cyber-black: #1a1a1a;
     gap: 1.5rem;
     margin: 0;
     padding: 0;
+    transition: all 0.3s ease;
 
-    @media (max-width: 768px) {
+    @media (max-width: $mobile-breakpoint) {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 250px;
+      height: 100vh;
+      background-color: rgba($cyber-black, 0.95);
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1.5rem;
+      padding: 5rem 2rem 2rem;
+      z-index: 1000;
+      box-shadow: -5px 0 15px rgba($neon-purple, 0.5);
+      border-left: 1px solid $neon-pink;
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+      transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1);
+    }
+
+    &--open {
+      @media (max-width: $mobile-breakpoint) {
+        right: 0;
+
+        li {
+          animation: menu-reveal 0.5s ease forwards;
+          opacity: 0;
+
+          @for $i from 1 through 10 {
+            &:nth-child(#{$i}) {
+              animation-delay: 0.1s * $i;
+            }
+          }
+        }
+      }
     }
 
     li {
       position: relative;
+      width: 100%;
+
+      @media (max-width: $mobile-breakpoint) {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 
@@ -264,6 +378,13 @@ $cyber-black: #1a1a1a;
     overflow: hidden;
     transition: all 0.3s ease;
     letter-spacing: 1px;
+
+    @media (max-width: $mobile-breakpoint) {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba($neon-blue, 0.3);
+      margin-bottom: 0.5rem;
+    }
 
     &-icon {
       margin-right: 0.5rem;
@@ -311,6 +432,24 @@ $cyber-black: #1a1a1a;
         background-color: $neon-pink;
         transform: scaleX(1);
         box-shadow: 0 0 10px $neon-pink, 0 0 20px $neon-pink;
+      }
+    }
+  }
+
+  // Mobile menu open state
+  &--menu-open {
+    @media (max-width: $mobile-breakpoint) {
+      &::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        backdrop-filter: blur(3px);
+        animation: menu-reveal 0.3s ease forwards;
       }
     }
   }
