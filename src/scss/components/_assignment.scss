@@ -236,3 +236,47 @@
     }
   }
 }
+
+.assignment-header-box {
+  background: #0f0f1a; // dark navy background
+  border: 2px solid #00bfff; // deep sky blue
+  border-radius: 12px;
+  padding: 50px;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px #00bfff;
+  animation: pulseNeonBlue 2s infinite alternate;
+
+  h2 {
+    color: #00bfff;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  button {
+    background-color: #000;
+    border: 2px solid #00bfff;
+    color: #00bfff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #00bfff;
+      color: #000;
+    }
+  }
+}
+
+@keyframes pulseNeonBlue {
+  from {
+    box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+  }
+  to {
+    box-shadow: 0 0 25px #00bfff, 0 0 40px #00bfff;
+  }
+}
+
