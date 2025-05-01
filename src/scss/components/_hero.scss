@@ -1,0 +1,368 @@
+// Cyberpunk color variables
+$neon-pink: #ff2a6d;
+$neon-blue: #05d9e8;
+$neon-purple: #d300c5;
+$neon-yellow: #f7f500;
+$dark-bg: #0d0221;
+$cyber-black: #1a1a1a;
+
+// Animations
+@keyframes flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes grid-movement {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 25px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //min-height: 100vh;
+  width: 100%;
+  padding-top: 900px;
+  margin-top: 0;
+  background-color: $dark-bg;
+  overflow: hidden;
+  
+  // Matrix digital rain canvas
+  .matrix-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.8; // Adjust opacity to control the intensity of the effect
+  }
+
+  // Cyberpunk grid background
+  &-cyberpunk-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+        rgba($neon-blue, 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba($neon-blue, 0.1) 1px, transparent 1px);
+    background-size: 25px 25px;
+    z-index: 1;
+    animation: grid-movement 5s linear infinite;
+    opacity: 0.3; // Reduced opacity to blend with matrix rain
+  }
+
+  // Glitch lines effect
+  &-glitch-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  // Main content container
+  &-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    // Add a subtle backdrop filter to make content more readable against the matrix rain
+    backdrop-filter: blur(2px);
+    
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+      gap: 2rem;
+    }
+  }
+
+  // Text container styling
+  &-text-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-right: 2rem;
+    
+    @media (max-width: 768px) {
+      align-items: center;
+      text-align: center;
+      padding-right: 0;
+    }
+  }
+  
+  // Title styling
+  &-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba($neon-blue, 0.7);
+    animation: flicker 3s infinite alternate;
+    
+    &-highlight {
+      color: $neon-pink;
+      text-shadow: 0 0 10px rgba($neon-pink, 0.7);
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  // Subtitle styling
+  &-subtitle {
+    font-size: 1.2rem;
+    color: rgba(white, 0.8);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+  
+  // Logo styling
+  &-logo-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 50%;
+    
+    @media (max-width: 768px) {
+      max-width: 80%;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &-logo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    filter: drop-shadow(0 0 10px rgba($neon-blue, 0.7))
+      drop-shadow(0 0 20px rgba($neon-purple, 0.5));
+    animation: pulse 4s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  &-logo-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle,
+      rgba($neon-purple, 0.3) 0%,
+      rgba($neon-blue, 0.1) 40%,
+      transparent 70%
+    );
+    filter: blur(20px);
+    z-index: 1;
+  }
+
+  // CTA button styling
+  &-cta-container {
+    position: relative;
+    margin-top: 1rem;
+  }
+
+  &-cta {
+    position: relative;
+    background-color: transparent;
+    color: $neon-pink;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 1rem 3rem;
+    border: 2px solid $neon-pink;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba($neon-pink, 0.7),
+      inset 0 0 10px rgba($neon-pink, 0.4);
+    text-shadow: 0 0 5px $neon-pink;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba($neon-pink, 0.4),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    &:hover {
+      background-color: rgba($neon-pink, 0.1);
+      color: white;
+      box-shadow: 0 0 20px rgba($neon-pink, 0.9),
+        inset 0 0 20px rgba($neon-pink, 0.5);
+
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &-cta-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  &-cta-glitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($neon-pink, 0.2);
+    opacity: 0;
+    z-index: 1;
+
+    .hero-cta:hover & {
+      opacity: 1;
+      animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    }
+  }
+}
+
+// Cyberpunk cursor
+.cyberpunk-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $neon-pink;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    background-color: $neon-blue;
+    border-radius: 50%;
+    box-shadow: 0 0 5px $neon-blue, 0 0 10px $neon-blue;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 1px solid rgba($neon-blue, 0.5);
+    animation: pulse 2s infinite;
+  }
+}
