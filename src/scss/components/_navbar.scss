@@ -7,7 +7,7 @@ $dark-bg: #0d0221;
 $cyber-black: #1a1a1a;
 
 // Breakpoints
-$mobile-breakpoint: 768px;
+$mobile-breakpoint: 1160px;
 
 @keyframes scanline {
   0% {
@@ -202,6 +202,7 @@ $mobile-breakpoint: 768px;
     background-color: rgba($dark-bg, 0.7);
 
     &-text {
+      font-size: 2rem;
       color: white;
       letter-spacing: 2px;
       animation: neon-flicker 5s infinite alternate;
