@@ -3,7 +3,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function SignInForm() {
   const [state, setState] = React.useState({
-    email: "",
+    assignmentID: "",
     password: "",
   });
   const handleChange = (evt) => {
@@ -17,15 +17,33 @@ function SignInForm() {
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
-    const { email, password } = state;
-    alert(`You are login with email: ${email} and password: ${password}`);
+    const { assignmentId, password } = state;
+    console.log(`You are loggind in with email: ${assignmentId} and password: ${password}`);
 
-    for (const key in state) {
-      setState({
-        ...state,
-        [key]: "",
+    console.log("Submitting login request with state:", state);
+    fetch("http://localhost:8080/auth/student/login", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify(state),
+      credentials: "include",
+    })
+      .then((response) => {
+      console.log("Received response:", response);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+      })
+      .then((data) => {
+      console.log("Success:", data);
+      window.location.href = "/";
+      })
+      .catch((error) => {
+      console.error("Error occurred during login:", error);
+      alert("Login failed!");
       });
-    }
   };
 
   return (
@@ -39,10 +57,10 @@ function SignInForm() {
         </div> */}
 
         <input
-          type="email"
-          placeholder="Student Name"
-          name="email"
-          value={state.email}
+          type="assignmentId"
+          placeholder="Assignment ID"
+          name="assignmentId"
+          value={state.assignmentId}
           onChange={handleChange}
         />
         <input
