@@ -20,14 +20,13 @@ const AssignmentPage = () => {
 
   const fetchAssignments = async () => {
     try {
-      const res = await fetch("http://localhost:8082/assignments/instructor/9", {
+      const res = await fetch("http://localhost:8082/instructor/list/9", {
         // credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to fetch");
 
       const data = await res.json();
-      console.log("Fetched assignments:", data); // ✅ This line shows what’s coming from the API
-      setProjects(data);
+     
 
       // Optional: Remove duplicate assignment IDs if needed
       const unique = Array.from(
