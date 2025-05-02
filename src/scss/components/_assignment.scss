@@ -236,3 +236,64 @@
     }
   }
 }
+
+.assignment-header-box {
+  background: #0f0f1a;
+  border: 2px solid #00bfff;
+  border-radius: 12px;
+  padding: 50px;
+  text-align: center;
+  margin-bottom: 2rem;
+  // box-shadow: 0 0 20px #00bfff;
+  box-shadow: rgb(211, 0, 197) 0px 0px 15px, rgb(255, 42, 109) 0px 0px 25px;
+    border: 1px solid rgb(211, 0, 197);
+  animation: pulseNeonBlue 2s infinite alternate;
+
+  h2 {
+    color: #00bfff;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    // text-shadow: rgb(5, 217, 232) 0px 0px 5px;
+  }
+
+  button {
+    background-color: #000;
+    border: 2px solid #00bfff;
+    color: #00bfff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #00bfff;
+      color: #000;
+    }
+  }
+}
+
+// @keyframes pulseNeonBlue {
+//   from {
+//     box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+//   }
+//   to {
+//     box-shadow: 0 0 25px #00bfff, 0 0 40px #00bfff;
+//   }
+// }
+
+@keyframes pulseNeonHybrid {
+  from {
+    box-shadow: 
+      0 0 10px rgba(211, 0, 197, 0.7),
+      0 0 20px rgba(255, 42, 109, 0.7),
+      0 0 10px rgba(0, 191, 255, 0.7);
+  }
+  to {
+    box-shadow: 
+      0 0 25px rgba(211, 0, 197, 0.9),
+      0 0 40px rgba(255, 42, 109, 0.9),
+      0 0 30px rgba(0, 191, 255, 0.9);
+  }
+}
