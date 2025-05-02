@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../scss/components/_assignment.scss";
-import { useEffect } from "react";
-
 
 const AssignmentPage = () => {
   const [studentName, setStudentName] = useState("");
@@ -17,8 +15,30 @@ const AssignmentPage = () => {
 
   useEffect(() => {
     document.title = "Assignment";
+    fetchAssignments();
   }, []);
-  
+
+  const fetchAssignments = async () => {
+    try {
+      const res = await fetch("http://localhost:8082/assignments/instructor/9", {
+        // credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to fetch");
+
+      const data = await res.json();
+      console.log("Fetched assignments:", data); // ✅ This line shows what’s coming from the API
+      setProjects(data);
+
+      // Optional: Remove duplicate assignment IDs if needed
+      const unique = Array.from(
+        new Map(data.map((item) => [item.assignmentid, item])).values()
+      );
+
+      setProjects(unique);
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    }
+  };
 
   const resetForm = () => {
     setStudentName("");
@@ -35,9 +55,9 @@ const AssignmentPage = () => {
     e.preventDefault();
 
     const newProject = {
-      studentName,
-      campID,
-      programID,
+      studentname: studentName,
+      campid: campID,
+      programid: programID,
       title,
       description,
       fileName: file ? file.name : null,
@@ -58,11 +78,11 @@ const AssignmentPage = () => {
 
   const handleEdit = (index) => {
     const project = projects[index];
-    setStudentName(project.studentName);
-    setCampID(project.campID);
-    setProgramID(project.programID);
-    setTitle(project.title);
-    setDescription(project.description);
+    setStudentName(project.studentname || project.studentName || "");
+    setCampID(project.campid || project.campID || "");
+    setProgramID(project.programid || project.programID || "");
+    setTitle(project.title || "");
+    setDescription(project.description || "");
     setFile(null);
     setEditingIndex(index);
     setShowModal(true);
@@ -131,15 +151,29 @@ const AssignmentPage = () => {
 
       {projects.length > 0 && (
         <div className="project-list">
-          {/* <h3>📋 Projects</h3> */}
           {projects.map((project, index) => (
             <div key={index} className="project-item">
               <div className="project-meta">
-                <strong>Student Name: {project.studentName}</strong> | CampID: {project.campID} | ProgramID: {project.programID}
+                <strong>Student Name:</strong> {project.studentname || project.studentName} |{" "}
+                <strong>CampID:</strong> {project.campid || project.campID} |{" "}
+                <strong>ProgramID:</strong> {project.programid || project.programID}
               </div>
-              <h4>{project.title}</h4>
-              <p>{project.description}</p>
+
+              {project.title && <h4>{project.title}</h4>}
+              {project.description && <p>{project.description}</p>}
               {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>}
+
+              {project.assignmenturl && (
+                <p>
+                  <a href={project.assignmenturl} target="_blank" rel="noopener noreferrer">View Assignment</a>
+                </p>
+              )}
+              {project.originalfile && (
+                <p>
+                  <a href={project.originalfile} target="_blank" rel="noopener noreferrer">Original File</a> |{" "}
+                  <a href={project.editablefile} target="_blank" rel="noopener noreferrer">Editable File</a>
+                </p>
+              )}
 
               <div className="action-buttons">
                 <button onClick={() => handleEdit(index)}>✏️ Edit</button>
