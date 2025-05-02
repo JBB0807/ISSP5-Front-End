@@ -76,7 +76,7 @@ const AssignmentPage = () => {
   return (
     <div className="assignment-page">
       <div className="assignment-header-box">
-        <h2>📘 Assignments</h2>
+        <h2>Assignments</h2>
         <button onClick={() => { resetForm(); setShowModal(true); }}>➕ Add New</button>
       </div>
 
