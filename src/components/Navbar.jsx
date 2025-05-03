@@ -13,7 +13,7 @@ const Navbar = () => {
   const menuRef = useRef(null);
 
   async function handleLogout() {
-    window.open("http://localhost:8080/auth/logout", "_self");
+    window.open(`${authUrl}/auth/logout`, "_self");
   };
 
   useEffect(() => {
