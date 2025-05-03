@@ -3,6 +3,8 @@ import "../scss/styles.scss";
 import "../scss/components/_navbar.scss";
 import { Link } from "react-router-dom";
 
+const authUrl = import.meta.env.VITE_AUTH_URL;
+
 const Navbar = () => {
   const [glitchEffect, setGlitchEffect] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
@@ -37,7 +39,7 @@ const Navbar = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     async function fetchUser() {
-      const res = await fetch("http://localhost:8080/auth/current_user", {
+      const res = await fetch(`${authUrl}/auth/current_user`, {
         credentials: "include", // very important
       });
       if (res.ok) {

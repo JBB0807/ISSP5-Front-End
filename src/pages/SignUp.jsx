@@ -34,7 +34,7 @@ function SignUpForm() {
 
   const googleAuth = () => {
     
-    window.open(authUrl, "_self");
+    window.open(`${authUrl}/auth/google`, "_self");
   };
 
   return (

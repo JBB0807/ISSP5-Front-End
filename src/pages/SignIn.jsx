@@ -1,6 +1,8 @@
 import React from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+const authUrl = import.meta.env.VITE_AUTH_URL;
+
 function SignInForm() {
   const [state, setState] = React.useState({
     assignmentID: "",
@@ -21,7 +23,7 @@ function SignInForm() {
     console.log(`You are loggind in with email: ${assignmentId} and password: ${password}`);
 
     console.log("Submitting login request with state:", state);
-    fetch("http://localhost:8080/auth/student/login", {
+    fetch(`${authUrl}/auth/student/login`, {
       method: "POST",
       headers: {
       "Content-Type": "application/json",
