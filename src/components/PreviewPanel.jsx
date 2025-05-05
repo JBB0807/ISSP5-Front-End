@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 export default function PreviewPanel({ code }) {
   const [gameUrl, setGameUrl] = useState('');
-  const [snakeApiUrl, setSnakeApiUrl] = useState('');
   const [settings, setSettings] = useState(null);
   const [moveRes, setMoveRes] = useState(null);
   const [loadingSetup, setLoadingSetup] = useState(false);
@@ -61,20 +60,6 @@ export default function PreviewPanel({ code }) {
         />
         <button onClick={fetchSetup} disabled={!gameUrl || loadingSetup}>
           {loadingSetup ? 'Loading…' : 'Fetch Board'}
-        </button>
-      </form>
-
-      {/* API server URL */}
-      <form style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Your Snake API URL"
-          value={snakeApiUrl}
-          onChange={(e) => setSnakeApiUrl(e.target.value)}
-          style={{ flex: 1 }}
-        />
-        <button onClick={fetchSetup} disabled={!snakeApiUrl || loadingSetup}>
-          {loadingSetup ? 'Loading…' : 'Connect Snake API'}
         </button>
       </form>
 

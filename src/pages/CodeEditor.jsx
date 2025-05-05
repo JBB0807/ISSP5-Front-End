@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import EditorPanel from "../components/EditorPanel";
+import PreviewPanel from "../components/PreviewPanel";
 
 const PageCodeEditor = () => {
   const [code, setCode] = useState(
@@ -63,6 +64,11 @@ const PageCodeEditor = () => {
           </h3>
           <EditorPanel code={code} onChange={setCode} />
         </div>
+
+        {/* <div className="preview-section">
+            <PreviewPanel code={code} />
+        </div> */}
+
 
         {/* live arena */}
         <div
@@ -131,46 +137,6 @@ const PageCodeEditor = () => {
               }}
             >
               FETCH BOARD
-            </button>
-          </div>
-
-          {/* snake api */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              borderRadius: "8px",
-              padding: "1rem",
-              marginBottom: "1rem",
-              textAlign: "center",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Your Snake API URL"
-              style={{
-                background: "transparent",
-                border: "none",
-                color: "#fff",
-                width: "100%",
-                textAlign: "center",
-                fontFamily: "'Fira Code', monospace",
-                outline: "none",
-              }}
-            />
-            <button
-              style={{
-                backgroundColor: "#ff2a6d",
-                color: "#fff",
-                padding: "0.5rem 1rem",
-                border: "none",
-                borderRadius: "20px",
-                marginTop: "0.5rem",
-                cursor: "pointer",
-                width: "100%",
-                fontWeight: "bold",
-              }}
-            >
-              CONNECT SNAKE API
             </button>
           </div>
 
