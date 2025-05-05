@@ -5,10 +5,12 @@ const AssignmentPage = () => {
   const [studentName, setStudentName] = useState("");
   const [campID, setCampID] = useState("");
   const [programID, setProgramID] = useState("");
+  const [appName, setAppName] = useState("");
+  const [qrCodeNumber, setQrCodeNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  
   const [projects, setProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -44,7 +46,6 @@ const AssignmentPage = () => {
     setCampID("");
     setProgramID("");
     setPassword("");
-    setTitle("");
     setDescription("");
     setFile(null);
     setEditingIndex(null);
@@ -56,11 +57,47 @@ const AssignmentPage = () => {
     const newProject = {
       studentname: studentName,
       campid: campID,
+      appname: appName,
+      qrcodenumber: qrCodeNumber,
+      passwordhash: password,
       programid: programID,
-      title,
       description,
-      fileName: file ? file.name : null,
+      file: file,
+      intructorid: 9,
     };
+
+    //callt the api to upload a new assignment
+    const formData = new FormData();
+    formData.append("studentname", studentName);
+    formData.append("campid", campID);
+    formData.append("programid", programID);
+    formData.append("appname", appName);
+    formData.append("qrcodenumber", qrCodeNumber);
+    formData.append("password", password);
+    formData.append("description", description);
+    formData.append("intructoid", 9);
+    if (file) {
+      formData.append("file", file, file.name);
+    }
+
+    fetch("http://localhost:8082/instructor/create", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to submit assignment");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Assignment submitted successfully:", data);
+        fetchAssignments(); // Refresh the assignments list
+      })
+      .catch((error) => {
+        console.error("Error submitting assignment:", error);
+        alert("Failed to submit assignment. Please try again.");
+      });
 
     if (editingIndex !== null) {
       const updatedProjects = [...projects];
@@ -80,7 +117,6 @@ const AssignmentPage = () => {
     setStudentName(project.studentname || project.studentName || "");
     setCampID(project.campid || project.campID || "");
     setProgramID(project.programid || project.programID || "");
-    setTitle(project.title || "");
     setDescription(project.description || "");
     setFile(null);
     setEditingIndex(index);
@@ -111,22 +147,28 @@ const AssignmentPage = () => {
 
               <div>
                 <label>Camp ID</label>
-                <input type="text" value={campID} onChange={(e) => setCampID(e.target.value)} required />
+                <input type="number" value={campID} onChange={(e) => setCampID(e.target.value)} required />
               </div>
 
               <div>
                 <label>Program ID</label>
-                <input type="text" value={programID} onChange={(e) => setProgramID(e.target.value)} required />
+                <input type="number" value={programID} onChange={(e) => setProgramID(e.target.value)} required />
+              </div>
+
+              <div>
+                <label>App Name</label>
+                <input type="text" value={appName} onChange={(e) => setAppName(e.target.value)} required />
+              </div>
+
+
+              <div>
+                <label>QR Code Number</label>
+                <input type="text" value={qrCodeNumber} onChange={(e) => setQrCodeNumber(e.target.value)} required />
               </div>
 
               <div>
                 <label>Password</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-
-              <div>
-                <label>Assignment Title</label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
               </div>
 
               <div>
