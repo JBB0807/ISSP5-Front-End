@@ -75,7 +75,7 @@ const AssignmentPage = () => {
     formData.append("qrcodenumber", qrCodeNumber);
     formData.append("password", password);
     formData.append("description", description);
-    formData.append("intructoid", 9);
+    formData.append("instructorid", 9);
     if (file) {
       formData.append("file", file, file.name);
     }

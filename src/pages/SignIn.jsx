@@ -5,7 +5,7 @@ const authUrl = import.meta.env.VITE_AUTH_URL;
 
 function SignInForm() {
   const [state, setState] = React.useState({
-    assignmentID: "",
+    qrNumber: "",
     password: "",
   });
   const handleChange = (evt) => {
@@ -19,8 +19,8 @@ function SignInForm() {
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
-    const { assignmentId, password } = state;
-    console.log(`You are loggind in with email: ${assignmentId} and password: ${password}`);
+    const { qrNumber, password } = state;
+    console.log(`You are loggind in with email: ${qrNumber} and password: ${password}`);
 
     console.log("Submitting login request with state:", state);
     fetch(`${authUrl}/auth/student/login`, {
@@ -59,10 +59,10 @@ function SignInForm() {
         </div> */}
 
         <input
-          type="assignmentId"
-          placeholder="Assignment ID"
-          name="assignmentId"
-          value={state.assignmentId}
+          type="number"
+          placeholder="Assignment QR Number"
+          name="qrNumber"
+          value={state.qrNumber}
           onChange={handleChange}
         />
         <input
