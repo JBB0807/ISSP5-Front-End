@@ -4,8 +4,11 @@ import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
 export default function PageCodeEditor() {
-  const { assignmentId: routeId } = useParams();
-  const assignmentId = routeId || "52";
+
+  const { qrCodeNumber: routeId } = useParams();
+  // console.log("Assignment ID:", assignmentId);
+  const qrCodeNumber = routeId || "2256";
+  console.log("QR Code Number:", qrCodeNumber);
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
@@ -15,14 +18,14 @@ export default function PageCodeEditor() {
   }, []);
 
   useEffect(() => {
-    fetch(`https://assignment-service.fly.dev/student/assignment/${assignmentId}`)
+    fetch(`https://assignment-service.fly.dev/student/assignment/${qrCodeNumber}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch assignment");
         return res.json();
       })
       .then((data) => setAppName(data.appname))
       .catch((err) => console.error("Assignment fetch error:", err));
-  }, [assignmentId]);
+  }, [qrCodeNumber]);
 
   useEffect(() => {
     if (!appName) return;
