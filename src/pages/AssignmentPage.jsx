@@ -15,6 +15,8 @@ const AssignmentPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
 
+  const VITE_ASSIGNMENT_URL = import.meta.env.VITE_ASSIGNMENT_URL;
+
   useEffect(() => {
     document.title = "Assignment";
     fetchAssignments();
@@ -22,7 +24,7 @@ const AssignmentPage = () => {
 
   const fetchAssignments = async () => {
     try {
-      const res = await fetch("http://localhost:8082/instructor/list/9", {
+      const res = await fetch(`${VITE_ASSIGNMENT_URL}/instructor/list/9`, {
         // credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to fetch");
@@ -80,7 +82,7 @@ const AssignmentPage = () => {
       formData.append("file", file, file.name);
     }
 
-    fetch("http://localhost:8082/instructor/create", {
+    fetch(`${VITE_ASSIGNMENT_URL}/instructor/create`, {
       method: "POST",
       body: formData,
     })
