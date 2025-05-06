@@ -14,7 +14,7 @@ const Navbar = () => {
 
   async function handleLogout() {
     window.open(`${authUrl}/auth/logout`, "_self");
-  };
+  }
 
   useEffect(() => {
     // Set active link based on current path
@@ -128,18 +128,22 @@ const Navbar = () => {
             <span className="navbar__link-hover"></span>
           </Link>
         </li> */}
-        <li>
-          <Link
-            to="/assignment"
-            className={`navbar__link ${
-              activeLink === "/assignment" ? "navbar__link--active" : ""
-            }`}
-          >
-            <span className="navbar__link-icon">🎯</span>
-            <span className="navbar__link-text">ASSIGNMENT</span>
-            <span className="navbar__link-hover"></span>
-          </Link>
-        </li>
+
+        {user && user.role === "instructor" && (
+          <li>
+            <Link
+              to="/assignment"
+              className={`navbar__link ${
+                activeLink === "/assignment" ? "navbar__link--active" : ""
+              }`}
+            >
+              <span className="navbar__link-icon">🎯</span>
+              <span className="navbar__link-text">ASSIGNMENT</span>
+              <span className="navbar__link-hover"></span>
+            </Link>
+          </li>
+        )}
+        {user && user.role === "student" && (        
         <li>
           <Link
             to="/editor"
@@ -152,6 +156,7 @@ const Navbar = () => {
             <span className="navbar__link-hover"></span>
           </Link>
         </li>
+        )}
         <li>
           {user ? (
             <a
