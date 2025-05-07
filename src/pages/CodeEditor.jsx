@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
-const ASSIGNMENT_BASE = "https://assignment-service.fly.dev";
+const ASSIGNMENT_BASE = "http://localhost:8082";
 
 export default function PageCodeEditor() {
   const { qrCodeNumber: routeId } = useParams();
-  const qrCodeNumber = routeId || "2256";
+  const qrCodeNumber = routeId || "6656";
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
