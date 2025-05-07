@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../scss/components/_assignment.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AssignmentPage = () => {
   const [assignmentId, setAssignmentId] = useState("");
@@ -21,16 +22,21 @@ const AssignmentPage = () => {
   const VITE_ASSIGNMENT_URL = import.meta.env.VITE_ASSIGNMENT_URL;
   const authUrl = import.meta.env.VITE_AUTH_URL;
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Assignment";
-    getCurrentUser();
-    fetchAssignments();
+
+    fetchAssignments(); // Add `await` here if it's also async
+  
   }, []);
 
   useEffect(() => {
     if (!appName) return; // Don't alert for empty name
     const timer = setTimeout(() => {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByAppName/${appName}`)
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByAppName/${appName}`
+      )
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to fetch assignment by app name");
@@ -39,7 +45,9 @@ const AssignmentPage = () => {
         })
         .then((data) => {
           if (data.exists) {
-            alert("This app name already exists. Please choose a different one.");
+            alert(
+              "This app name already exists. Please choose a different one."
+            );
           }
         })
         .catch((error) => {
@@ -54,34 +62,38 @@ const AssignmentPage = () => {
     if (!qrCodeNumber) return; // Don't alert for empty QR code number
     console.log("Checking QR code number:", qrCodeNumber); // Added console log
     const timer = setTimeout(() => {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`)
-      .then((response) => {
-      if (!response.ok) {
-      throw new Error("Failed to fetch assignment by QR code number");
-      }
-      return response.json();
-      })
-      .then((data) => {
-      console.log("QR code fetch result:", data); // Added console log
-      if (data.exists) {
-        alert("This QR code number already exists. Please choose a different one.");
-      }
-      })
-      .catch((error) => {
-      console.error("Error fetching assignment by QR code number:", error);
-      });
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch assignment by QR code number");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("QR code fetch result:", data); // Added console log
+          if (data.exists) {
+            alert(
+              "This QR code number already exists. Please choose a different one."
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching assignment by QR code number:", error);
+        });
     }, 1000); // 1 second delay
 
     return () => clearTimeout(timer); // Clear timeout on QR code number change
-    }, [qrCodeNumber]);
+  }, [qrCodeNumber]);
 
   const getCurrentUser = async () => {
     try {
       const authResponse = await fetch(`${authUrl}/auth/current_user`, {
         credentials: "include",
       });
-
       const user = await authResponse.json();
+      console.log("Current user fetched:", user);
       setUser(user);
     } catch (error) {
       console.error("Error fetching current user:", error);
@@ -90,26 +102,29 @@ const AssignmentPage = () => {
 
   const fetchAssignments = async () => {
     try {
-      // if (user) {
-      // console.log("Current user:", user, `${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`);
-      // const res = await fetch(`${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`, {
-      //   // credentials: "include",
-      // });
-      //replace this with commented code above to get the instructor id from the auth service
-      const res = await fetch(`${VITE_ASSIGNMENT_URL}/instructor/list/9`, {
-        // credentials: "include",
-      });
+      // Check if user is logged in
+      console.log("User:", user);
+
+      const res = await fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
+
+      console.log("Fetched assignments data:", data);
 
       // Optional: Remove duplicate assignment IDs if needed
       const unique = Array.from(
         new Map(data.map((item) => [item.assignmentid, item])).values()
       );
 
+      console.log("Unique assignments data:", unique);
+
       setProjects(unique);
-      // }
     } catch (error) {
       console.error("Error fetching assignments:", error);
     }
@@ -123,6 +138,10 @@ const AssignmentPage = () => {
     setDescription("");
     setFile(null);
     setEditingIndex(null);
+  };
+
+  const handleEditClick = (qrCodeNumber) => {
+    navigate('/editor', { state: { qrCodeNumber: qrCodeNumber } });
   };
 
   const handleSubmit = async (e) => {
@@ -146,7 +165,6 @@ const AssignmentPage = () => {
         body: formData,
       })
         .then((response) => {
-          
           if (!response.ok) {
             console.error("Failed to edit assignment:", response.statusText);
             throw new Error("Failed to edit assignment");
@@ -162,7 +180,7 @@ const AssignmentPage = () => {
         });
     } else {
       //create mode
-      formData.append("instructorid", 9);
+      formData.append("instructorid", userId);
       formData.append("appname", appName);
 
       if (file) {
@@ -218,9 +236,12 @@ const AssignmentPage = () => {
   const handleDelete = (index) => {
     const project = projects[index];
     if (window.confirm("Are you sure you want to delete this assignment?")) {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/delete/${project.assignmentid}`, {
-        method: "DELETE",
-      })
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/delete/${project.assignmentid}`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((response) => {
           if (!response.ok) {
             console.error("Failed to delete assignment:", response.statusText);
@@ -415,8 +436,8 @@ const AssignmentPage = () => {
               <div className="action-buttons">
                 <button onClick={() => handleEdit(index)}>✏️ Edit</button>
                 <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-                <button onClick={() => alert("QR feature coming soon!")}>
-                  📎 QR
+                <button key={project.qrCodeNumber} onClick={() => handleEditClick(project.qrCodeNumber)}>
+                  📎 {project.qrcodenumber}
                 </button>
               </div>
             </div>
