@@ -3,22 +3,22 @@ import { useParams } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
-export default function PageCodeEditor() {
+const ASSIGNMENT_BASE = "https://assignment-service.fly.dev";
 
+export default function PageCodeEditor() {
   const { qrCodeNumber: routeId } = useParams();
-  // console.log("Assignment ID:", assignmentId);
   const qrCodeNumber = routeId || "2256";
-  console.log("QR Code Number:", qrCodeNumber);
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     document.title = "Snake Brain Editor";
   }, []);
 
   useEffect(() => {
-    fetch(`https://assignment-service.fly.dev/student/assignment/${qrCodeNumber}`)
+    fetch(`${ASSIGNMENT_BASE}/student/assignment/${qrCodeNumber}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch assignment");
         return res.json();
@@ -29,7 +29,7 @@ export default function PageCodeEditor() {
 
   useEffect(() => {
     if (!appName) return;
-    fetch(`https://assignment-service.fly.dev/notebook/${appName}`)
+    fetch(`${ASSIGNMENT_BASE}/notebook/${appName}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch notebook");
         return res.json();
@@ -44,6 +44,25 @@ export default function PageCodeEditor() {
       .catch((err) => console.error("Notebook fetch error:", err));
   }, [appName]);
 
+  const handleSave = async () => {
+    if (isSaving) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch(`${ASSIGNMENT_BASE}/student/save`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appName, code })
+      });
+      if (!res.ok) throw new Error("Save failed");
+      alert("Notebook saved");
+    } catch (err) {
+      console.error("Save error:", err);
+      alert(`Save error: ${err.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <main className="code-editor-page" style={{ paddingTop: "35px" }}>
       <div
@@ -53,7 +72,7 @@ export default function PageCodeEditor() {
           gap: "1rem",
           width: "120rem",
           padding: "1rem",
-          fontFamily: "'Fira Code', 'Courier New', monospace",
+          fontFamily: "'Fira Code', 'Courier New', monospace"
         }}
       >
         {/* Python Editor */}
@@ -66,7 +85,7 @@ export default function PageCodeEditor() {
             padding: "1rem",
             color: "#eee",
             minHeight: "80vh",
-            overflow: "auto",
+            overflow: "auto"
           }}
         >
           <h3
@@ -75,7 +94,7 @@ export default function PageCodeEditor() {
               fontSize: "1.2rem",
               color: "#05d9e8",
               textShadow: "0 0 5px #05d9e8",
-              marginBottom: "1rem",
+              marginBottom: "1rem"
             }}
           >
             🐍 Snake Brain (Python)
@@ -83,6 +102,8 @@ export default function PageCodeEditor() {
           <EditorPanel code={code} onChange={setCode} />
           <div style={{ marginTop: "1rem", display: "flex" }}>
             <button
+              onClick={handleSave}
+              disabled={isSaving}
               style={{
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
@@ -90,21 +111,21 @@ export default function PageCodeEditor() {
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: "pointer",
+                cursor: isSaving ? "not-allowed" : "pointer"
               }}
             >
-              Save
+              {isSaving ? "Saving..." : "Save"}
             </button>
             <button
               style={{
+                marginLeft: "1rem",
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
                 padding: "0.5rem 2rem",
-                marginLeft: "1rem",
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: "pointer",
+                cursor: "pointer"
               }}
             >
               Deploy
@@ -121,7 +142,7 @@ export default function PageCodeEditor() {
             borderRadius: "12px",
             padding: "1rem",
             color: "#eee",
-            minHeight: "80vh",
+            minHeight: "80vh"
           }}
         >
           <h3
@@ -132,7 +153,7 @@ export default function PageCodeEditor() {
               marginBottom: "1rem",
               display: "flex",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.5rem"
             }}
           >
             🎯 Live Arena Output
@@ -141,7 +162,7 @@ export default function PageCodeEditor() {
             style={{
               color: "#fff",
               textAlign: "center",
-              marginBottom: "1rem",
+              marginBottom: "1rem"
             }}
           >
             Battlesnake Preview
