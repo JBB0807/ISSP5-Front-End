@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
+import SnakeSpinner from "../components/SnakeSpinner"; // 👈 make sure this file exists
 import PreviewPanel from "../components/PreviewPanel";
 
 export default function PageCodeEditor() {
@@ -12,6 +13,7 @@ export default function PageCodeEditor() {
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
+  const [isLoading, setIsLoading] = useState(false); // 👈 Spinner toggle
 
   useEffect(() => {
     document.title = "Snake Brain Editor";
@@ -70,7 +72,6 @@ export default function PageCodeEditor() {
           }}
         >
           <h3
-            className="panel-heading"
             style={{
               fontSize: "1.2rem",
               color: "#05d9e8",
@@ -137,16 +138,123 @@ export default function PageCodeEditor() {
           >
             🎯 Live Arena Output
           </h3>
-          <h4
-            style={{
-              color: "#fff",
-              textAlign: "center",
-              marginBottom: "1rem",
-            }}
-          >
+
+          <h4 style={{ color: '#fff', textAlign: 'center', marginBottom: '1rem' }}>
             Battlesnake Preview
           </h4>
-          <PreviewPanel code={code} />
+
+          {isLoading ? (
+            <SnakeSpinner />
+          ) : (
+            <>
+              {/* Game URL Input */}
+              <div
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid #ff2a6d',
+                  borderRadius: '8px',
+                  padding: '1rem',
+                  marginBottom: '1rem',
+                  textAlign: 'center',
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Game URL"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#fff',
+                    width: '100%',
+                    textAlign: 'center',
+                    fontFamily: "'Fira Code', monospace",
+                    outline: 'none',
+                  }}
+                />
+                <button
+                  style={{
+                    backgroundColor: '#ff2a6d',
+                    color: '#fff',
+                    padding: '0.5rem 1rem',
+                    border: 'none',
+                    borderRadius: '20px',
+                    marginTop: '0.5rem',
+                    cursor: 'pointer',
+                    width: '100%',
+                    fontWeight: 'bold',
+                  }}
+                  onClick={() => setIsLoading(true)} // Example usage
+                >
+                  FETCH BOARD
+                </button>
+              </div>
+
+              {/* Snake API Input */}
+              <div
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid #ff2a6d',
+                  borderRadius: '8px',
+                  padding: '1rem',
+                  marginBottom: '1rem',
+                  textAlign: 'center',
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Your Snake API URL"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#fff',
+                    width: '100%',
+                    textAlign: 'center',
+                    fontFamily: "'Fira Code', monospace",
+                    outline: 'none',
+                  }}
+                />
+                <button
+                  style={{
+                    backgroundColor: '#ff2a6d',
+                    color: '#fff',
+                    padding: '0.5rem 1rem',
+                    border: 'none',
+                    borderRadius: '20px',
+                    marginTop: '0.5rem',
+                    cursor: 'pointer',
+                    width: '100%',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  CONNECT SNAKE API
+                </button>
+              </div>
+
+              {/* Test Move Button */}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: '2rem',
+                }}
+              >
+                <button
+                  style={{
+                    backgroundColor: '#ff2a6d',
+                    color: '#fff',
+                    padding: '0.5rem 2rem',
+                    border: 'none',
+                    borderRadius: '20px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    boxShadow: '0 0 10px #ff2a6d',
+                  }}
+                >
+                  TEST MOVE
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </main>
