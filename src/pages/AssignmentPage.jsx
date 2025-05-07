@@ -130,6 +130,7 @@ const AssignmentPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!user.userId) return alert("Please login to submit an assignment.");
 
@@ -143,13 +144,14 @@ const AssignmentPage = () => {
     formData.append("description", description);
 
     setTimeout(() => {
-      if (editingIndex !== null) {
-        const updatedProjects = [...projects];
-        updatedProjects[editingIndex] = newProject;
-        setProjects(updatedProjects);
-      } else {
-        setProjects([...projects, newProject]);
-      }
+      //replace with api
+      // if (editingIndex !== null) {
+      //   const updatedProjects = [...projects];
+      //   updatedProjects[editingIndex] = newProject;
+      //   setProjects(updatedProjects);
+      // } else {
+      //   setProjects([...projects, newProject]);
+      // }
 
       alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
       resetForm();
@@ -280,15 +282,6 @@ const AssignmentPage = () => {
         />
       </div>
 
-      <div className="assignment-search-box">
-        <input
-          type="text"
-          placeholder="🔍︎ Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -338,19 +331,22 @@ const AssignmentPage = () => {
                 />
               </div>
 
-              <div>
+              <div className="password-field">
                 <label>Password</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-
-              <div>
-                <label>Password</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="input-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </span>
+                </div>
               </div>
 
               <div>
@@ -367,9 +363,20 @@ const AssignmentPage = () => {
                 <input type="file" onChange={(e) => setFile(e.target.files[0])} />
               </div>
 
+              {loading && (
+                <div className="spinner-container">
+                  <div className="spinner"></div>
+                  <p>Uploading...</p>
+                </div>
+              )}
+
               <div className="modal-buttons">
-                <button type="submit">{editingIndex !== null ? "Update" : "Submit"}</button>
-                <button type="button" onClick={() => { resetForm(); setShowModal(false); }}>Cancel</button>
+                <button type="submit" disabled={loading}>
+                  {editingIndex !== null ? "Update" : "Submit"}
+                </button>
+                <button type="button" onClick={() => { resetForm(); setShowModal(false); }} disabled={loading}>
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -378,13 +385,29 @@ const AssignmentPage = () => {
 
       {projects.length > 0 && (
         <div className="project-list">
-          {projects.map((project, index) => (
-            <div key={index} className="project-item">
-              <div className="project-meta">
-                <strong>Student Name:</strong> {project.studentname || project.studentName} |{" "}
-                <strong>CampID:</strong> {project.campid || project.campID} |{" "}
-                <strong>ProgramID:</strong> {project.programid || project.programID}
-              </div>
+          {projects
+            .filter((project) => {
+              if (!searchTerm.trim()) return true;
+              const regex = new RegExp(searchTerm, "i");
+              return (
+                regex.test(project.studentname ||  project.studentName || "") ||
+                regex.test(project.campid || project.campID || "") ||
+                regex.test(project.programid || project.programID || "") ||
+                regex.test(project.title || "") ||
+                regex.test(project.description || "") ||
+                regex.test(project.fileName || "") ||
+                regex.test(project.assignmenturl || "") ||
+                regex.test(project.originalfile || "") ||
+                regex.test(project.editablefile || "")
+              );
+            })
+            .map((project, index) => (
+              <div key={index} className="project-item">
+                <div className="project-meta">
+                  <p><strong>Student Name:</strong> {project.studentname || project.studentName}</p>
+                  <p><strong>CampID:</strong> {project.campid || project.campID}</p>
+                  <p><strong>ProgramID:</strong> {project.programid || project.programID}</p>
+                </div>
 
               {project.title && <h4>{project.title}</h4>}
               {project.description && <p>{project.description}</p>}
