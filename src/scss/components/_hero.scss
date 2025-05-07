@@ -93,7 +93,7 @@ $cyber-black: #1a1a1a;
   margin-top: 0;
   background-color: $dark-bg;
   overflow: hidden;
-  
+
   // Matrix digital rain canvas
   .matrix-rain {
     position: absolute;
@@ -154,7 +154,7 @@ $cyber-black: #1a1a1a;
     padding: 2rem;
     // Add a subtle backdrop filter to make content more readable against the matrix rain
     backdrop-filter: blur(2px);
-    
+
     @media (max-width: 768px) {
       flex-direction: column-reverse;
       gap: 2rem;
@@ -169,34 +169,37 @@ $cyber-black: #1a1a1a;
     align-items: flex-start;
     justify-content: center;
     padding-right: 2rem;
-    
+
     @media (max-width: 768px) {
       align-items: center;
       text-align: center;
       padding-right: 0;
     }
   }
-  
+
   // Title styling
   &-title {
-    font-size: 3.5rem;
+    font-size: 5rem;
     font-weight: bold;
     color: white;
     margin-bottom: 1rem;
     letter-spacing: 4px;
-    text-shadow: 0 0 10px rgba($neon-blue, 0.7);
+    text-shadow: 0 0 10px rgba($neon-blue, 0.7), 0 0 20px rgba($neon-blue, 0.7),
+      0 0 30px rgba($neon-blue, 0.7);
     animation: flicker 3s infinite alternate;
-    
+
     &-highlight {
+      font-size: 5rem;
       color: $neon-pink;
-      text-shadow: 0 0 10px rgba($neon-pink, 0.7);
+      text-shadow: 0 0 10px rgba($neon-pink, 0.7),
+        0 0 20px rgba($neon-pink, 0.7), 0 0 30px rgba($neon-pink, 0.7);
     }
-    
+
     @media (max-width: 768px) {
-      font-size: 2.5rem;
+      font-size: 5rem;
     }
   }
-  
+
   // Subtitle styling
   &-subtitle {
     font-size: 1.2rem;
@@ -205,12 +208,12 @@ $cyber-black: #1a1a1a;
     max-width: 500px;
     line-height: 1.6;
     letter-spacing: 1px;
-    
+
     @media (max-width: 768px) {
       font-size: 1rem;
     }
   }
-  
+
   // Logo styling
   &-logo-container {
     position: relative;
@@ -219,7 +222,7 @@ $cyber-black: #1a1a1a;
     justify-content: center;
     align-items: center;
     max-width: 50%;
-    
+
     @media (max-width: 768px) {
       max-width: 80%;
       margin-bottom: 1rem;
@@ -231,7 +234,7 @@ $cyber-black: #1a1a1a;
     height: auto;
     border-radius: 8px;
     filter: drop-shadow(0 0 10px rgba($neon-blue, 0.7))
-      drop-shadow(0 0 20px rgba($neon-purple, 0.5));
+      drop-shadow(0 0 20px rgba($neon-purple, 1));
     animation: pulse 4s ease-in-out infinite;
     z-index: 2;
   }
@@ -317,7 +320,7 @@ $cyber-black: #1a1a1a;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($neon-pink, 0.2);
+    background-color: rgba($neon-pink, 0.5);
     opacity: 0;
     z-index: 1;
 

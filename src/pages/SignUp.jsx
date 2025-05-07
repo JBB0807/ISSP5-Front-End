@@ -2,7 +2,6 @@ import React from "react";
 function SignUpForm() {
   const authUrl = import.meta.env.VITE_AUTH_URL;
 
-
   const [state, setState] = React.useState({
     name: "",
     email: "",
@@ -33,7 +32,6 @@ function SignUpForm() {
   };
 
   const googleAuth = () => {
-    
     window.open(`${authUrl}/auth/google`, "_self");
   };
 
