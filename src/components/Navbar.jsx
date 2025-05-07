@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../scss/styles.scss";
 import "../scss/components/_navbar.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+const authUrl = import.meta.env.VITE_AUTH_URL;
 
 // Using URL reference for ByteCamp logo
 const bytecampLogo = "/images/bytecamp.png";
@@ -12,23 +14,9 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Implement client-side logout without calling the backend
-    // This clears the user state in the frontend
-    setUser(null);
-
-    // Clear any authentication cookies if they exist
-    document.cookie.split(";").forEach((cookie) => {
-      const [name] = cookie.trim().split("=");
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
-
-    // Redirect to home page
-    navigate("/");
-
-    console.log("Logged out successfully");
+  async function handleLogout() {
+    window.open(`${authUrl}/auth/logout`, "_self");
   };
 
   useEffect(() => {
@@ -54,7 +42,7 @@ const Navbar = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     async function fetchUser() {
-      const res = await fetch("http://localhost:8080/auth/current_user", {
+      const res = await fetch(`${authUrl}/auth/current_user`, {
         credentials: "include", // very important
       });
       if (res.ok) {
