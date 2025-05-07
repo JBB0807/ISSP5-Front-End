@@ -14,7 +14,7 @@ const Navbar = () => {
 
   async function handleLogout() {
     window.open(`${authUrl}/auth/logout`, "_self");
-  };
+  }
 
   useEffect(() => {
     // Set active link based on current path
@@ -114,32 +114,21 @@ const Navbar = () => {
             <span className="navbar__link-hover"></span>
           </Link>
         </li>
-        {/* will be decided later of we shall keep NOTEBOOK or not */}
-        {/* <li>
-          <Link
-            to="/notebook"
-            className={`navbar__link ${
-              activeLink === "/notebook" ? "navbar__link--active" : ""
-            }`}
-          >
-            <span className="navbar__link-icon">📓</span>
-            <span className="navbar__link-text"></span>
-            NOTEBOOK
-            <span className="navbar__link-hover"></span>
-          </Link>
-        </li> */}
-        <li>
-          <Link
-            to="/assignment"
-            className={`navbar__link ${
-              activeLink === "/assignment" ? "navbar__link--active" : ""
-            }`}
-          >
-            <span className="navbar__link-icon">🎯</span>
-            <span className="navbar__link-text">ASSIGNMENT</span>
-            <span className="navbar__link-hover"></span>
-          </Link>
-        </li>
+        {user && user.role === "instructor" && (
+          <li>
+            <Link
+              to="/assignment"
+              className={`navbar__link ${
+                activeLink === "/assignment" ? "navbar__link--active" : ""
+              }`}
+            >
+              <span className="navbar__link-icon">🎯</span>
+              <span className="navbar__link-text">ASSIGNMENT</span>
+              <span className="navbar__link-hover"></span>
+            </Link>
+          </li>
+        )}
+        {user && user.role === "student" && (        
         <li>
           <Link
             to="/editor"
@@ -152,6 +141,7 @@ const Navbar = () => {
             <span className="navbar__link-hover"></span>
           </Link>
         </li>
+        )}
         <li>
           {user ? (
             <a
@@ -185,21 +175,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-//{user ? user.displayName : "NOTEBOOK"}
-
-//server side logout (was not working properly, so implemented client side logout)
-// const handleLogout = async () => {
-//   try {
-//     const res = await fetch("http://localhost:8080/auth/logout", {
-//       method: "GET",
-//       credentials: "include",
-//     });
-
-//     if (res.ok) {
-//       setUser(null);
-// } else {
-//   console.error("Logout failed");
-// }
-// } catch (error) {
-// console.error("Error during logout:", error);
-// }
