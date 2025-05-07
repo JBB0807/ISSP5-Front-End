@@ -1,17 +1,29 @@
-import React from 'react';
-import '../scss/components/Services.scss';
-import ServiceCard from '../components/ServicesCard.jsx';
+import React from "react";
+import "../scss/components/_services.scss";
+import ServiceCard from "../components/ServicesCard.jsx";
+import battlesnakeLogo from "../../public/images/battlesnake.png";
 
 function Services() {
   return (
     <section className="services">
-      <h2>Develop your own algorithm to find food, stay alive, and eliminate others. Battlesnakes are controlled by a web server you deploy, running the code you write.</h2>
+      <h2>
+        Develop your own algorithm to find food, stay alive, and eliminate
+        others. Battlesnakes are controlled by a web server you deploy, running
+        the code you write.
+      </h2>
       <div className="cards">
         <ServiceCard
-          icon="🖥️"
+          icon={
+            <img
+              src={battlesnakeLogo}
+              alt="BattleSnake Logo"
+              style={{ width: "100px", height: "100px" }}
+            />
+          }
           title="What is Battlesnake?"
           desc="Battlesnake is a competitive game where your code is the controller. All you need is a web server that responds to the Battlesnake API."
-          cta="What how it works"
+          cta="How it works?"
+          link="https://docs.battlesnake.com/"
         />
         <ServiceCard
           icon="🏆"

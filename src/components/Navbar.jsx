@@ -87,7 +87,7 @@ const Navbar = () => {
       <div className="navbar__logo">
         <div className="navbar__logo-scanner"></div>
         <span className="navbar__logo-text">
-          BATTLE<span className="navbar__logo-text">SNAKE</span>
+          Byte<span className="navbar__logo-text">Camp</span>
         </span>
       </div>
 
