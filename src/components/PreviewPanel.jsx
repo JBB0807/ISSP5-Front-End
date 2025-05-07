@@ -1,27 +1,18 @@
 import React, { useState } from 'react';
 
-export default function PreviewPanel({ code }) {
-  const [gameUrl, setGameUrl] = useState('');
-  const [settings, setSettings] = useState(null);
-  const [loadingSetup, setLoadingSetup] = useState(false);
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-  const fetchBoard = async () => {
-    if (!gameUrl.trim()) return;
-    setLoadingSetup(true);
-    try {
-      const res = await fetch(
-        `/api/fetch-board?url=${encodeURIComponent(gameUrl.trim())}`
-      );
-      if (!res.ok) throw new Error('Fetch board failed');
-      setSettings(await res.json());
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoadingSetup(false);
+export default function PreviewPanel({ code }) {
+  const [gameId, setGameId] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const isValid = uuidRegex.test(gameId);
+
+  const handleClick = () => {
+    if (isValid) {
+      setSubmitted(true);
     }
   };
-
-  const gameId = gameUrl.trim().split('/').pop();
 
   return (
     <div style={{
@@ -61,9 +52,9 @@ export default function PreviewPanel({ code }) {
       }}>
         <input
           type="text"
-          placeholder="Game URL"
-          value={gameUrl}
-          onChange={e => setGameUrl(e.target.value)}
+          placeholder="Game ID (UUID)"
+          value={gameId}
+          onChange={e => { setGameId(e.target.value.trim()); setSubmitted(false); }}
           style={{
             width: '100%',
             padding: '0.5rem',
@@ -75,44 +66,42 @@ export default function PreviewPanel({ code }) {
             outline: 'none'
           }}
         />
+        {!isValid && gameId && (
+          <p style={{ color: 'salmon', margin: '0 0 0.5rem' }}>
+            Invalid Game ID format.
+          </p>
+        )}
         <button
           type="button"
-          onClick={fetchBoard}
-          disabled={!gameUrl.trim() || loadingSetup}
+          onClick={handleClick}
+          disabled={!isValid}
           style={{
             width: '100%',
             padding: '0.75rem',
-            backgroundColor: '#ff2a6d',
+            backgroundColor: isValid ? '#ff2a6d' : '#555',
             border: 'none',
             borderRadius: '20px',
             color: '#fff',
             fontWeight: 'bold',
-            cursor: 'pointer'
+            cursor: isValid ? 'pointer' : 'not-allowed'
           }}
         >
-          {loadingSetup ? 'Loading…' : 'FETCH BOARD'}
+          {submitted ? 'Loaded' : 'LOAD BOARD'}
         </button>
       </div>
-
-      {/* <div style={{
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid #ff2a6d',
-        borderRadius: '8px',
-        padding: '1rem',
-        marginBottom: '1rem'
-      }}>
-      </div> */}
 
       <div style={{
         flex: 1,
         overflow: 'hidden',
         borderRadius: '8px'
       }}>
-        {settings && gameId && (
+        {submitted && (
           <iframe
-            src={`/proxy/?game=${encodeURIComponent(gameId)}&autoplay=false&showControls=true`}
-            style={{ width: '100%', height: '100%', border: 'none' }}
+            src={`https://gameboard-service-aged-glitter-8141.fly.dev/?game=${encodeURIComponent(gameId)}&autoplay=false&showControls=true`}
             title="Battlesnake Board"
+            style={{ width: '100%', height: '100%', border: 'none' }}
+            allowFullScreen
+            scrolling="no"
           />
         )}
       </div>
