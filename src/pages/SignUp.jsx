@@ -32,12 +32,7 @@ function SignUpForm() {
   };
 
   const googleAuth = () => {
-<<<<<<< HEAD
-    window.open(authUrl, "_self");
-=======
-    
     window.open(`${authUrl}/auth/google`, "_self");
->>>>>>> refs/remotes/origin/homepage-2nd-sprint
   };
 
   return (
