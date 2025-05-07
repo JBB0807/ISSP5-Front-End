@@ -3,6 +3,9 @@ import "../scss/styles.scss";
 import "../scss/components/_navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
 
+// Using URL reference for ByteCamp logo
+const bytecampLogo = "/images/bytecamp.png";
+
 const Navbar = () => {
   const [glitchEffect, setGlitchEffect] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
@@ -86,8 +89,13 @@ const Navbar = () => {
     >
       <div className="navbar__logo">
         <div className="navbar__logo-scanner"></div>
+        <img
+          src={bytecampLogo}
+          alt="ByteCamp Logo"
+          style={{ height: "40px", marginRight: "10px" }}
+        />
         <span className="navbar__logo-text">
-          Byte<span className="navbar__logo-text">Camp</span>
+          BYTE<span className="navbar__logo-text">CAMP</span>
         </span>
       </div>
 

@@ -1,7 +1,11 @@
 import React from "react";
 import "../scss/components/_services.scss";
 import ServiceCard from "../components/ServicesCard.jsx";
-import battlesnakeLogo from "../../public/images/battlesnake.png";
+import { FaYoutube } from "react-icons/fa";
+
+// Using URL references for public assets instead of direct imports
+const battlesnakeLogo = "/images/battlesnake.png";
+const bytecampLogo = "/images/bytecamp.png";
 
 function Services() {
   return (
@@ -26,16 +30,24 @@ function Services() {
           link="https://docs.battlesnake.com/"
         />
         <ServiceCard
-          icon="🏆"
-          title="Leaderboard"
-          desc="Choose your tech stack, deploy your Battlesnake, and see how your code ranks against other developers."
-          cta="Check the leaderboard"
+          icon={<FaYoutube style={{ color: "#FF0000", fontSize: "5rem" }} />}
+          title="Tutorial"
+          desc="Learn how to create your first Battlesnake with an easy-to-follow video guide to get you started quickly."
+          cta="Watch tutorial"
+          link="https://www.youtube.com/watch?v=IA7CeGRfuNE"
         />
         <ServiceCard
-          icon="💡"
-          title="Try new languages and technologies in a high-stakes environment."
-          desc="Battlesnake is a great outlet to learn something new and mess around with that platform, language, or library you've been meaning to try"
-          cta="Learn more"
+          icon={
+            <img
+              src={bytecampLogo}
+              alt="ByteCamp Logo"
+              style={{ width: "100px", height: "100px" }}
+            />
+          }
+          title="Are you ready to start?"
+          desc="Join ByteCamp coding bootcamp and start learning Battlesnake today!"
+          cta="Register here"
+          link="https://www.bytecamp.ca/#r"
         />
       </div>
     </section>
