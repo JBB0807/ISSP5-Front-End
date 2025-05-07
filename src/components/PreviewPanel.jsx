@@ -2,140 +2,120 @@ import React, { useState } from 'react';
 
 export default function PreviewPanel({ code }) {
   const [gameUrl, setGameUrl] = useState('');
-  const [snakeApiUrl, setSnakeApiUrl] = useState('');
   const [settings, setSettings] = useState(null);
-  const [moveRes, setMoveRes] = useState(null);
   const [loadingSetup, setLoadingSetup] = useState(false);
-  const [loadingMove, setLoadingMove] = useState(false);
 
-
-    const fetchSetup = async (e) => {
-      e.preventDefault();
-      setLoadingSetup(true);
-      try {
-        const res = await fetch(
-          `/api/fetch-board?url=${encodeURIComponent(gameUrl.trim())}`
-        );
-        setSettings(await res.json());
-        setMoveRes(null);
-      } catch (err) {
-        console.error(err);
-      }
-      setLoadingSetup(false);
-    };
-
-  const testMove = async (e) => {
-    e.preventDefault();
-    if (!settings) return;
-    setLoadingMove(true);
+  const fetchBoard = async () => {
+    if (!gameUrl.trim()) return;
+    setLoadingSetup(true);
     try {
-      const res = await fetch('/api/move', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, boardState: settings })
-      });
-      setMoveRes(await res.json());
+      const res = await fetch(
+        `/api/fetch-board?url=${encodeURIComponent(gameUrl.trim())}`
+      );
+      if (!res.ok) throw new Error('Fetch board failed');
+      setSettings(await res.json());
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoadingSetup(false);
     }
-    setLoadingMove(false);
   };
 
   const gameId = gameUrl.trim().split('/').pop();
 
   return (
-    <div
-      className="preview-panel"
-      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-    >
-      <h2>Battlesnake Preview</h2>
+    <div style={{
+      flex: 1,
+      background: '#1a1a1a',
+      borderRadius: '12px',
+      boxShadow: '0 0 15px #d300c5, 0 0 25px #ff2a6d',
+      border: '1px solid #d300c5',
+      padding: '1rem',
+      color: '#eee',
+      display: 'flex',
+      flexDirection: 'column',
+      boxSizing: 'border-box'
+    }}>
+      <div style={{
+        backgroundColor: '#d300c5',
+        height: '6px',
+        borderRadius: '3px 3px 0 0',
+        marginBottom: '0.5rem'
+      }} />
+      <h3 style={{
+        fontSize: '1.2rem',
+        margin: '0 0 1rem',
+        color: '#d300c5',
+        textShadow: '0 0 5px #d300c5',
+        textAlign: 'center'
+      }}>
+        🎯 Live Arena Output
+      </h3>
 
-      {/* game board URL */}
-      <form style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+      <div style={{
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid #ff2a6d',
+        borderRadius: '8px',
+        padding: '1rem',
+        marginBottom: '1rem'
+      }}>
         <input
           type="text"
           placeholder="Game URL"
           value={gameUrl}
-          onChange={(e) => setGameUrl(e.target.value)}
-          style={{ flex: 1 }}
+          onChange={e => setGameUrl(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '0.5rem',
+            marginBottom: '0.75rem',
+            border: 'none',
+            borderRadius: 4,
+            background: 'transparent',
+            color: '#fff',
+            outline: 'none'
+          }}
         />
-        <button onClick={fetchSetup} disabled={!gameUrl || loadingSetup}>
-          {loadingSetup ? 'Loading…' : 'Fetch Board'}
-        </button>
-      </form>
-
-      {/* API server URL */}
-      <form style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Your Snake API URL"
-          value={snakeApiUrl}
-          onChange={(e) => setSnakeApiUrl(e.target.value)}
-          style={{ flex: 1 }}
-        />
-        <button onClick={fetchSetup} disabled={!snakeApiUrl || loadingSetup}>
-          {loadingSetup ? 'Loading…' : 'Connect Snake API'}
-        </button>
-      </form>
-
-      {/* Test Move */}
-      <div style={{ marginBottom: '1rem' }}>
-        <button onClick={testMove} disabled={!settings || loadingMove}>
-          {loadingMove ? 'Testing…' : 'Test Move'}
+        <button
+          type="button"
+          onClick={fetchBoard}
+          disabled={!gameUrl.trim() || loadingSetup}
+          style={{
+            width: '100%',
+            padding: '0.75rem',
+            backgroundColor: '#ff2a6d',
+            border: 'none',
+            borderRadius: '20px',
+            color: '#fff',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          {loadingSetup ? 'Loading…' : 'FETCH BOARD'}
         </button>
       </div>
 
-      {settings && gameId && (
-        <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+      {/* <div style={{
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid #ff2a6d',
+        borderRadius: '8px',
+        padding: '1rem',
+        marginBottom: '1rem'
+      }}>
+      </div> */}
+
+      <div style={{
+        flex: 1,
+        overflow: 'hidden',
+        borderRadius: '8px'
+      }}>
+        {settings && gameId && (
           <iframe
-            src={`/proxy/?game=${gameId}&autoplay=false&showControls=true`}
-            style={{ width: '70%', height: '100%', border: 'none' }}
+            src={`/proxy/?game=${encodeURIComponent(gameId)}&autoplay=false&showControls=true`}
+            style={{ width: '100%', height: '100%', border: 'none' }}
             title="Battlesnake Board"
           />
-
-          {/*<iframe
-            src={`/board/index.html?game=${gameId}&autoplay=true&showControls=true`}
-            style={{ width: '70%', height: '100%', border: 'none' }}
-            title="Battlesnake Board"
-          />*/}
-
-          <div
-            style={{
-              width: '30%',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'auto',
-              background: '#222',
-              color: '#eee',
-              padding: '1rem'
-            }}
-          >
-            {moveRes && (
-              <pre
-                style={{
-                  background: moveRes.error ? '#500' : '#050',
-                  color: '#fff',
-                  padding: '0.5rem',
-                  marginBottom: '1rem',
-                  overflowX: 'auto'
-                }}
-              >
-                {JSON.stringify(moveRes, null, 2)}
-              </pre>
-            )}
-            <pre
-              style={{
-                flex: 1,
-                margin: 0,
-                padding: '0.5rem',
-                overflow: 'auto'
-              }}
-            >
-              {JSON.stringify(settings, null, 2)}
-            </pre>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

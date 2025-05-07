@@ -1,17 +1,51 @@
 import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-function SignInForm() {
-  const [state, setState] = useState({ email: "", password: "" });
+const authUrl = import.meta.env.VITE_AUTH_URL;
 
-  const handleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+function SignInForm() {
+  const [state, setState] = React.useState({
+    qrNumber: "",
+    password: "",
+  });
+  const handleChange = (evt) => {
+    const value = evt.target.value;
+    setState({
+      ...state,
+      [evt.target.name]: value,
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Logged in with:\nEmail: ${state.email}\nPassword: ${state.password}`);
-    setState({ email: "", password: "" });
+  const handleOnSubmit = (evt) => {
+    evt.preventDefault();
+
+    const { qrNumber, password } = state;
+    console.log(`You are loggind in with email: ${qrNumber} and password: ${password}`);
+
+    console.log("Submitting login request with state:", state);
+    fetch(`${authUrl}/auth/student/login`, {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify(state),
+      credentials: "include",
+    })
+      .then((response) => {
+      console.log("Received response:", response);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+      })
+      .then((data) => {
+      console.log("Success:", data);
+      window.location.href = "/";
+      })
+      .catch((error) => {
+      console.error("Error occurred during login:", error);
+      alert("Login failed!");
+      });
   };
 
   return (

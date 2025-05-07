@@ -2,7 +2,6 @@ import React from "react";
 function SignUpForm() {
   const authUrl = import.meta.env.VITE_AUTH_URL;
 
-
   const [state, setState] = React.useState({
     name: "",
     email: "",
@@ -19,9 +18,9 @@ function SignUpForm() {
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
-    const { name, email, password } = state;
+    const { assignmentID, password } = state;
     alert(
-      `You are signed in with name: ${name} email: ${email} and password: ${password}`
+      `You are signed in with assignmentID: ${assignmentID} and password: ${password}`
     );
 
     for (const key in state) {
@@ -33,8 +32,7 @@ function SignUpForm() {
   };
 
   const googleAuth = () => {
-    
-    window.open(authUrl, "_self");
+    window.open(`${authUrl}/auth/google`, "_self");
   };
 
   return (

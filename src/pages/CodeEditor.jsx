@@ -1,90 +1,139 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import SnakeSpinner from "../components/SnakeSpinner"; // 👈 make sure this file exists
+import PreviewPanel from "../components/PreviewPanel";
 
-const PageCodeEditor = () => {
-  const [code, setCode] = useState(`# Write your Battlesnake code here\ndef move(board):\n    return { 'move': 'up' }`);
+export default function PageCodeEditor() {
+
+  const { qrCodeNumber: routeId } = useParams();
+  // console.log("Assignment ID:", assignmentId);
+  const qrCodeNumber = routeId || "2256";
+  console.log("QR Code Number:", qrCodeNumber);
+
+  const [appName, setAppName] = useState("");
+  const [code, setCode] = useState("# NOW LOADING");
   const [isLoading, setIsLoading] = useState(false); // 👈 Spinner toggle
 
   useEffect(() => {
     document.title = "Snake Brain Editor";
   }, []);
 
+  useEffect(() => {
+    fetch(`https://assignment-service.fly.dev/student/assignment/${qrCodeNumber}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch assignment");
+        return res.json();
+      })
+      .then((data) => setAppName(data.appname))
+      .catch((err) => console.error("Assignment fetch error:", err));
+  }, [qrCodeNumber]);
+
+  useEffect(() => {
+    if (!appName) return;
+    fetch(`https://assignment-service.fly.dev/notebook/${appName}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch notebook");
+        return res.json();
+      })
+      .then((notebook) => {
+        const combined = notebook.cells
+          .filter((cell) => cell.cell_type === "code")
+          .map((cell) => cell.source.join(""))
+          .join("\n\n");
+        setCode(combined);
+      })
+      .catch((err) => console.error("Notebook fetch error:", err));
+  }, [appName]);
+
   return (
-    <main className="code-editor-page" style={{ paddingTop: '70px' }}>
+    <main className="code-editor-page" style={{ paddingTop: "35px" }}>
       <div
         className="editor-page-layout"
         style={{
-          display: 'flex',
-          gap: '2rem',
-          padding: '2rem',
+          display: "flex",
+          gap: "1rem",
+          width: "120rem",
+          padding: "1rem",
           fontFamily: "'Fira Code', 'Courier New', monospace",
         }}
       >
-        {/* Left: Snake Brain Editor */}
+        {/* Python Editor */}
         <div
           className="box-panel"
           style={{
             flex: 2,
-            background: 'linear-gradient(145deg, #0d0221, #1a1a1a)',
-            borderRadius: '12px',
-            boxShadow: '0 0 15px #05d9e8, 0 0 30px #ff2a6d',
-            border: '1px solid #ff2a6d',
-            padding: '1rem',
-            color: '#eee',
+            background: "linear-gradient(145deg, #0d0221, #1a1a1a)",
+            borderRadius: "10px",
+            padding: "1rem",
+            color: "#eee",
+            minHeight: "80vh",
+            overflow: "auto",
           }}
         >
-          <div
-            style={{
-              backgroundColor: '#ff2a6d',
-              height: '6px',
-              borderRadius: '3px 3px 0 0',
-              marginBottom: '0.5rem',
-            }}
-          />
           <h3
             style={{
-              fontSize: '1.2rem',
-              color: '#05d9e8',
-              textShadow: '0 0 5px #05d9e8',
-              marginBottom: '1rem',
+              fontSize: "1.2rem",
+              color: "#05d9e8",
+              textShadow: "0 0 5px #05d9e8",
+              marginBottom: "1rem",
             }}
           >
             🐍 Snake Brain (Python)
           </h3>
           <EditorPanel code={code} onChange={setCode} />
+          <div style={{ marginTop: "1rem", display: "flex" }}>
+            <button
+              style={{
+                backgroundColor: "#ff2a6d",
+                color: "#fff",
+                padding: "0.5rem 2rem",
+                border: "none",
+                borderRadius: "20px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              Save
+            </button>
+            <button
+              style={{
+                backgroundColor: "#ff2a6d",
+                color: "#fff",
+                padding: "0.5rem 2rem",
+                marginLeft: "1rem",
+                border: "none",
+                borderRadius: "20px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              Deploy
+            </button>
+          </div>
         </div>
 
-        {/* Right: Live Arena Output */}
+        {/* Live Arena */}
         <div
           className="box-panel"
           style={{
             flex: 1,
-            background: '#1a1a1a',
-            borderRadius: '12px',
-            boxShadow: '0 0 15px #d300c5, 0 0 25px #ff2a6d',
-            border: '1px solid #d300c5',
-            padding: '1rem',
-            color: '#eee',
+            background: "#1a1a1a",
+            borderRadius: "12px",
+            padding: "1rem",
+            color: "#eee",
+            minHeight: "80vh",
           }}
         >
-          <div
-            style={{
-              backgroundColor: '#d300c5',
-              height: '6px',
-              borderRadius: '3px 3px 0 0',
-              marginBottom: '0.5rem',
-            }}
-          />
           <h3
             style={{
-              fontSize: '1.2rem',
-              color: '#d300c5',
-              textShadow: '0 0 5px #d300c5',
-              marginBottom: '1rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
+              fontSize: "1.2rem",
+              color: "#d300c5",
+              textShadow: "0 0 5px #d300c5",
+              marginBottom: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
             }}
           >
             🎯 Live Arena Output
@@ -210,6 +259,4 @@ const PageCodeEditor = () => {
       </div>
     </main>
   );
-};
-
-export default PageCodeEditor;
+}
