@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
+const ASSIGNMENT_BASE = "http://localhost:8082";
+
 export default function PageCodeEditor() {
 
   const location = useLocation();
@@ -12,13 +14,15 @@ export default function PageCodeEditor() {
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeploying, setIsDeploying] = useState(false);
 
   useEffect(() => {
     document.title = "Snake Brain Editor";
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8082/student/assignment/${qrCodeNumber}`)
+    fetch(`${ASSIGNMENT_BASE}/student/assignment/${qrCodeNumber}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch assignment");
         return res.json();
@@ -29,7 +33,7 @@ export default function PageCodeEditor() {
 
   useEffect(() => {
     if (!appName) return;
-    fetch(`http://localhost:8082/notebook/${appName}`)
+    fetch(`${ASSIGNMENT_BASE}/notebook/${appName}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch notebook");
         return res.json();
@@ -44,6 +48,44 @@ export default function PageCodeEditor() {
       .catch((err) => console.error("Notebook fetch error:", err));
   }, [appName]);
 
+  const handleSave = async () => {
+    if (isSaving) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch(`${ASSIGNMENT_BASE}/student/save`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appName, code })
+      });
+      if (!res.ok) throw new Error("Save failed");
+      alert("Notebook saved");
+    } catch (err) {
+      console.error("Save error:", err);
+      alert(`Save error: ${err.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeploy = async () => {
+    if (isDeploying) return;
+    setIsDeploying(true);
+    try {
+      const res = await fetch(`${ASSIGNMENT_BASE}/student/restart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appName })
+      });
+      if (!res.ok) throw new Error("Restart failed");
+      alert("App restarted");
+    } catch (err) {
+      console.error("Restart error:", err);
+      alert(`Restart error: ${err.message}`);
+    } finally {
+      setIsDeploying(false);
+    }
+  };
+
   return (
     <main className="code-editor-page" style={{ paddingTop: "35px" }}>
       <div
@@ -53,7 +95,7 @@ export default function PageCodeEditor() {
           gap: "1rem",
           width: "120rem",
           padding: "1rem",
-          fontFamily: "'Fira Code', 'Courier New', monospace",
+          fontFamily: "'Fira Code', 'Courier New', monospace"
         }}
       >
         {/* Python Editor */}
@@ -66,7 +108,7 @@ export default function PageCodeEditor() {
             padding: "1rem",
             color: "#eee",
             minHeight: "80vh",
-            overflow: "auto",
+            overflow: "auto"
           }}
         >
           <h3
@@ -75,7 +117,7 @@ export default function PageCodeEditor() {
               fontSize: "1.2rem",
               color: "#05d9e8",
               textShadow: "0 0 5px #05d9e8",
-              marginBottom: "1rem",
+              marginBottom: "1rem"
             }}
           >
             🐍 Snake Brain (Python)
@@ -83,31 +125,38 @@ export default function PageCodeEditor() {
           <EditorPanel code={code} onChange={setCode} />
           <div style={{ marginTop: "1rem", display: "flex" }}>
             <button
+              onClick={handleSave}
+              disabled={isSaving}
               style={{
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
+                marginLeft: "50rem",
                 padding: "0.5rem 2rem",
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: "pointer",
+                cursor: isSaving ? "not-allowed" : "pointer"
               }}
             >
-              Save
+              {isSaving ? "Saving..." : "Save"}
             </button>
+
+
             <button
+              onClick={handleDeploy}
+              disabled={isDeploying}
               style={{
+                marginLeft: "1rem",
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
                 padding: "0.5rem 2rem",
-                marginLeft: "1rem",
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: "pointer",
+                cursor: isDeploying ? "not-allowed" : "pointer"
               }}
             >
-              Deploy
+              {isDeploying ? "Deploying..." : "Deploy"}
             </button>
           </div>
         </div>
@@ -121,7 +170,7 @@ export default function PageCodeEditor() {
             borderRadius: "12px",
             padding: "1rem",
             color: "#eee",
-            minHeight: "80vh",
+            minHeight: "80vh"
           }}
         >
           <h3
@@ -132,7 +181,7 @@ export default function PageCodeEditor() {
               marginBottom: "1rem",
               display: "flex",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.5rem"
             }}
           >
             🎯 Live Arena Output
@@ -141,7 +190,7 @@ export default function PageCodeEditor() {
             style={{
               color: "#fff",
               textAlign: "center",
-              marginBottom: "1rem",
+              marginBottom: "1rem"
             }}
           >
             Battlesnake Preview
