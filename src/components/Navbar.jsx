@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
+// Using URL reference for ByteCamp logo
+const bytecampLogo = "/images/bytecamp.png";
+
 const Navbar = () => {
   const [glitchEffect, setGlitchEffect] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
@@ -74,8 +77,13 @@ const Navbar = () => {
     >
       <div className="navbar__logo">
         <div className="navbar__logo-scanner"></div>
+        <img
+          src={bytecampLogo}
+          alt="ByteCamp Logo"
+          style={{ height: "40px", marginRight: "10px" }}
+        />
         <span className="navbar__logo-text">
-          BATTLE<span className="navbar__logo-text">SNAKE</span>
+          BYTE<span className="navbar__logo-text">CAMP</span>
         </span>
       </div>
 
