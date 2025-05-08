@@ -20,6 +20,9 @@ const AssignmentPage = () => {
 
   const VITE_ASSIGNMENT_URL = import.meta.env.VITE_ASSIGNMENT_URL;
   const authUrl = import.meta.env.VITE_AUTH_URL;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = "Assignment";
@@ -127,6 +130,7 @@ const AssignmentPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!user.userId) return alert("Please login to submit an assignment.");
 
@@ -139,6 +143,21 @@ const AssignmentPage = () => {
     formData.append("password", password);
     formData.append("description", description);
 
+    setTimeout(() => {
+      //replace with api
+      // if (editingIndex !== null) {
+      //   const updatedProjects = [...projects];
+      //   updatedProjects[editingIndex] = newProject;
+      //   setProjects(updatedProjects);
+      // } else {
+      //   setProjects([...projects, newProject]);
+      // }
+
+      alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
+      resetForm();
+      setShowModal(false);
+      setLoading(false);
+    }, 2000);
     if (editingIndex !== null) {
       //edit mode
       await fetch(`${VITE_ASSIGNMENT_URL}/instructor/update/${assignmentId}`, {
@@ -254,6 +273,15 @@ const AssignmentPage = () => {
         </button>
       </div>
 
+      <div className="assignment-search-box">
+        <input
+          type="text"
+          placeholder="🔍︎ Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
@@ -303,24 +331,22 @@ const AssignmentPage = () => {
                 />
               </div>
 
-              <div>
-                <label>QR Code Number</label>
-                <input
-                  type="text"
-                  value={qrCodeNumber}
-                  onChange={(e) => setQrCodeNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
+              <div className="password-field">
                 <label>Password</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="input-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </span>
+                </div>
               </div>
 
               <div>
@@ -332,27 +358,23 @@ const AssignmentPage = () => {
                 ></textarea>
               </div>
 
-              {editingIndex === null && (
-                <div>
-                  <label>File Upload (optional)</label>
-                  <input
-                    type="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                  />
+              <div>
+                <label>File Upload (optional)</label>
+                <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+              </div>
+
+              {loading && (
+                <div className="spinner-container">
+                  <div className="spinner"></div>
+                  <p>Uploading...</p>
                 </div>
               )}
 
               <div className="modal-buttons">
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                   {editingIndex !== null ? "Update" : "Submit"}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    resetForm();
-                    setShowModal(false);
-                  }}
-                >
+                <button type="button" onClick={() => { resetForm(); setShowModal(false); }} disabled={loading}>
                   Cancel
                 </button>
               </div>
@@ -363,23 +385,33 @@ const AssignmentPage = () => {
 
       {projects.length > 0 && (
         <div className="project-list">
-          {projects.map((project, index) => (
-            <div key={index} className="project-item">
-              <div className="project-meta">
-                <strong>Student Name:</strong>{" "}
-                {project.studentname || project.studentName} |{" "}
-                <strong>CampID:</strong> {project.campid || project.campID} |{" "}
-                <strong>ProgramID:</strong>{" "}
-                {project.programid || project.programID}
-              </div>
+          {projects
+            .filter((project) => {
+              if (!searchTerm.trim()) return true;
+              const regex = new RegExp(searchTerm, "i");
+              return (
+                regex.test(project.studentname ||  project.studentName || "") ||
+                regex.test(project.campid || project.campID || "") ||
+                regex.test(project.programid || project.programID || "") ||
+                regex.test(project.title || "") ||
+                regex.test(project.description || "") ||
+                regex.test(project.fileName || "") ||
+                regex.test(project.assignmenturl || "") ||
+                regex.test(project.originalfile || "") ||
+                regex.test(project.editablefile || "")
+              );
+            })
+            .map((project, index) => (
+              <div key={index} className="project-item">
+                <div className="project-meta">
+                  <p><strong>Student Name:</strong> {project.studentname || project.studentName}</p>
+                  <p><strong>CampID:</strong> {project.campid || project.campID}</p>
+                  <p><strong>ProgramID:</strong> {project.programid || project.programID}</p>
+                </div>
 
               {project.title && <h4>{project.title}</h4>}
               {project.description && <p>{project.description}</p>}
-              {project.fileName && (
-                <p>
-                  <strong>Uploaded File:</strong> {project.fileName}
-                </p>
-              )}
+              {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>}
 
               {project.assignmenturl && (
                 <p>
@@ -412,15 +444,13 @@ const AssignmentPage = () => {
                 </p>
               )}
 
-              <div className="action-buttons">
-                <button onClick={() => handleEdit(index)}>✏️ Edit</button>
-                <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-                <button onClick={() => alert("QR feature coming soon!")}>
-                  📎 QR
-                </button>
+                <div className="action-buttons">
+                  <button onClick={() => handleEdit(index)}>✏️ View Edit</button>
+                  <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
+                  <button onClick={() => alert("QR feature coming soon!")}>🧮 Editor</button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>

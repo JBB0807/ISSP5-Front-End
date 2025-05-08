@@ -1,10 +1,10 @@
 .assignment-page {
   max-width: 100%;
   padding: 20px;
-  margin-top: 70rem;
+  margin-top: 90rem;
   overflow-x: hidden;
   overflow-y: auto;
-  min-height: 100vh;
+  // min-height: 100vh;
   box-sizing: border-box;
 
   form {
@@ -48,116 +48,55 @@
     }
   }
 
-  // .project-list {
-  //   display: grid;
-  //   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  //   gap: 1.5rem;
-  //   margin-top: 2rem;
-  //   padding-bottom: 3rem;
   
-  //   .project-item {
-  //     background: #ffffff;
-  //     border: 1px solid #e0e0e0;
-  //     border-radius: 12px;
-  //     padding: 1.5rem;
-  //     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  //     transition: transform 0.2s ease, box-shadow 0.2s ease;
+  .assignment-links a {
+    color: white !important;
+  }
   
-  //     .project-meta {
-  //       margin-bottom: 0.75rem;
-  
-  //       strong {
-  //         color: #34495e;
-  //       }
-  //     }
-  
-  //     h4 {
-  //       margin: 0.5rem 0;
-  //       font-size: 1.2rem;
-  //       color: #2d3436;
-  //     }
-  
-  //     p {
-  //       margin: 0.25rem 0;
-  //       color: #555;
-  //       line-height: 1.4;
-  
-  //       strong {
-  //         color: #2d3436;
-  //       }
-  //     }
-  
-  //     .action-buttons {
-  //       display: flex;
-  //       gap: 0.5rem;
-  //       margin-top: 0.75rem;
-  
-  //       button {
-  //         background-color: #f4f4f4;
-  //         border: 1px solid #ddd;
-  //         border-radius: 6px;
-  //         padding: 0.4rem 0.8rem;
-  //         cursor: pointer;
-  //         font-size: 0.9rem;
-  
-  //         &:hover {
-  //           background-color: #e9ecef;
-  //         }
-  
-  //         &:nth-child(1) {
-  //           color: #2c3e50;
-  //         }
-  
-  //         &:nth-child(2) {
-  //           color: #c0392b;
-  //         }
-  
-  //         &:nth-child(3) {
-  //           color: #16a085;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
   .project-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // exactly 2 columns
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 7rem;
   
     .project-item {
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
+      background: #0f0f1a;
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       overflow-wrap: break-word;
-      box-shadow: rgb(211, 0, 197) 0px 0px 15px, rgb(255, 42, 109) 0px 0px 25px;
-  
+      // box-shadow: rgb(211, 0, 197) 0px 0px 15px, rgb(255, 42, 109) 0px 0px 25px;
+      border: 2px solid rgb(75 187 236);
+
       .project-meta {
         margin-bottom: 0.75rem;
+        color: lightgray;
   
         strong {
-          color: #34495e;
+          color: #00bfff;
+          font-weight: bold;
         }
       }
   
       h4 {
         margin: 0.5rem 0;
         font-size: 1.2rem;
-        color: #2d3436;
+        color: white;
       }
   
       p {
-        margin: 0.25rem 0;
-        color: #555;
+        margin: 1rem 0;
+        color: white;
         line-height: 1.4;
+        font-size: 15px;
+        // margin-bottom: 10px;
   
         strong {
-          color: #2d3436;
+          color: #00bfff;
+          font-weight: bold;
         }
       }
   
@@ -167,19 +106,20 @@
         margin-top: 0.75rem;
   
         button {
-          background-color: #f4f4f4;
-          border: 1px solid #ddd;
+          background-color: #000000;
+          border: 2px solid #00bfff;
           border-radius: 6px;
           padding: 0.4rem 0.8rem;
           cursor: pointer;
           font-size: 0.9rem;
   
           &:hover {
-            background-color: #e9ecef;
+            background-color: #E4E4E4;
+            border: 2px solid #E4E4E4;
           }
   
           &:nth-child(1) {
-            color: #2c3e50;
+            color: #007fff;
           }
   
           &:nth-child(2) {
@@ -211,7 +151,7 @@
   }
   
   .modal {
-    background: #fff;
+    background: #f3f3f3;
     padding: 2rem;
     border-radius: 12px;
     max-width: 500px;
@@ -221,6 +161,10 @@
     overflow: auto;
   }
   
+  .modal form {
+    background-color: #f3f3f3;
+  }
+
   .modal h3 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
@@ -237,7 +181,7 @@
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 0.4rem;
-    color: #555;
+    color: black
   }
   
   .modal input[type="text"],
@@ -246,10 +190,11 @@
   .modal textarea {
     width: 100%;
     padding: 0.6rem 0.8rem;
-    border: 1px solid #ccc;
+    border: 1px solid #BBBBBB;
     border-radius: 6px;
     font-size: 0.95rem;
     transition: border-color 0.2s ease;
+    background-color: white;
   
     &:focus {
       border-color: #007bff;
@@ -288,7 +233,7 @@
   }
   
   .modal-buttons button[type="button"] {
-    background-color: #e0e0e0;
+    background-color: #d3d3d3;
     color: #333;
   
     &:hover {
@@ -312,7 +257,7 @@
   background: #0f0f1a;
   border: 2px solid #00bfff;
   border-radius: 12px;
-  padding: 50px;
+  padding: 50px 100px;
   text-align: center;
   margin-bottom: 2rem;
   // box-shadow: 0 0 20px #00bfff;
@@ -405,5 +350,72 @@
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
+  }
+}
+
+// Search Bar Styling
+.assignment-search-box {
+  margin: 1rem 0;
+  input {
+    width: 100%;
+    // padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #1a1a2b;
+    color: #fefefe;
+    box-shadow: rgb(211, 0, 197) 0px 0px 15px, rgb(255, 42, 109) 0px 0px 25px;
+
+    &::placeholder {
+      color: #aaa;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgb(211, 0, 197);
+    }
+  }
+}
+
+.password-field {
+  .input-wrapper {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding-right: 2.5rem; 
+    }
+
+    .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 0.75rem;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #555;
+      user-select: none;
+    }
+  }
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 10px 0;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top: 3px solid #333;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
