@@ -40,33 +40,11 @@ function SignUpForm() {
       <form onSubmit={handleOnSubmit}>
         <h1>Instructor</h1>
         <div className="social-container">
-          <a href="#" className="social" onClick={googleAuth}>
+          <a href="#" className="social google-signin" onClick={googleAuth}>
             <i className="fab fa-google-plus-g" />
           </a>
         </div>
-        <span>or use your email for registration</span>
-        <input
-          type="text"
-          name="name"
-          value={state.name}
-          onChange={handleChange}
-          placeholder="Name"
-        />
-        <input
-          type="email"
-          name="email"
-          value={state.email}
-          onChange={handleChange}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          name="password"
-          value={state.password}
-          onChange={handleChange}
-          placeholder="Password"
-        />
-        <button>Sign in</button>
+        <p>Sign in with your Google account</p>
       </form>
     </div>
   );

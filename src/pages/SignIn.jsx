@@ -20,31 +20,33 @@ function SignInForm() {
     evt.preventDefault();
 
     const { qrNumber, password } = state;
-    console.log(`You are loggind in with email: ${qrNumber} and password: ${password}`);
+    console.log(
+      `You are loggind in with email: ${qrNumber} and password: ${password}`
+    );
 
     console.log("Submitting login request with state:", state);
     fetch(`${authUrl}/auth/student/login`, {
       method: "POST",
       headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(state),
       credentials: "include",
     })
       .then((response) => {
-      console.log("Received response:", response);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
+        console.log("Received response:", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
       .then((data) => {
-      console.log("Success:", data);
-      window.location.href = "/";
+        console.log("Success:", data);
+        window.location.href = "/";
       })
       .catch((error) => {
-      console.error("Error occurred during login:", error);
-      alert("Login failed!");
+        console.error("Error occurred during login:", error);
+        alert("Login failed!");
       });
   };
 
@@ -52,11 +54,6 @@ function SignInForm() {
     <div className="form-container sign-in-container">
       <form onSubmit={handleOnSubmit}>
         <h1>Student</h1>
-        {/* <div className="social-container">
-          <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
-          </a>
-        </div> */}
 
         <input
           type="number"

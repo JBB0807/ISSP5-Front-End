@@ -5,10 +5,6 @@ import { FaYoutube } from "react-icons/fa";
 import battlesnakeLogo from "../../public/images/battlesnake.png";
 import bytecampLogo from "../../public/images/bytecamp.png";
 
-// // Using URL references for public assets instead of direct imports
-// const battlesnakeLogo = "/images/battlesnake.png";
-// const bytecampLogo = "/images/bytecamp.png";
-
 function Services() {
   return (
     <section className="services">

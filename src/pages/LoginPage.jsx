@@ -29,6 +29,10 @@ const LoginPage = () => {
           <SignInForm />
           <div className="overlay-container">
             <div className="overlay">
+              {/* Cyberpunk grid and scanline effects */}
+              <div className="grid-background"></div>
+              <div className="scanline"></div>
+              
               <div className="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
                 <p>Please login with your personal info</p>
