@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
 const ASSIGNMENT_BASE = "http://localhost:8082";
 
 export default function PageCodeEditor() {
-
-  const location = useLocation();
-  const qrCodeNumber = location.state?.qrCodeNumber;
-
-  console.log("QR Code Number:", qrCodeNumber);
+  const { qrCodeNumber: routeId } = useParams();
+  const qrCodeNumber = routeId || "6656";
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
@@ -87,13 +84,14 @@ export default function PageCodeEditor() {
   };
 
   return (
-    <main className="code-editor-page" style={{ paddingTop: "35px" }}>
+    <main className="code-editor-page" style={{ paddingTop: "35px", width: "100vw" }}>
       <div
         className="editor-page-layout"
         style={{
-          display: "flex",
-          gap: "1rem",
-          width: "120rem",
+          display: "grid",
+          gridTemplateColumns: '1fr 0.8fr',
+          //gap: "1rem",
+          width: "100%",
           padding: "1rem",
           fontFamily: "'Fira Code', 'Courier New', monospace"
         }}
@@ -107,7 +105,7 @@ export default function PageCodeEditor() {
             borderRadius: "10px",
             padding: "1rem",
             color: "#eee",
-            minHeight: "80vh",
+            minHeight: "30vh",
             overflow: "auto"
           }}
         >
@@ -123,14 +121,13 @@ export default function PageCodeEditor() {
             🐍 Snake Brain (Python)
           </h3>
           <EditorPanel code={code} onChange={setCode} />
-          <div style={{ marginTop: "1rem", display: "flex" }}>
+          <div style={{ marginTop: "1rem", display: "flex", flexDirection: "flex-end" }}>
             <button
               onClick={handleSave}
               disabled={isSaving}
               style={{
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
-                marginLeft: "50rem",
                 padding: "0.5rem 2rem",
                 border: "none",
                 borderRadius: "20px",
@@ -168,9 +165,9 @@ export default function PageCodeEditor() {
             flex: 1,
             background: "#1a1a1a",
             borderRadius: "12px",
-            padding: "1rem",
+            padding: "0.8rem",
             color: "#eee",
-            minHeight: "80vh"
+            minHeight: "20vh"
           }}
         >
           <h3
@@ -178,10 +175,10 @@ export default function PageCodeEditor() {
               fontSize: "1.2rem",
               color: "#d300c5",
               textShadow: "0 0 5px #d300c5",
-              marginBottom: "1rem",
+              marginBottom: "0.8rem",
               display: "flex",
               alignItems: "center",
-              gap: "0.5rem"
+              gap: "0.8rem"
             }}
           >
             🎯 Live Arena Output
@@ -190,7 +187,7 @@ export default function PageCodeEditor() {
             style={{
               color: "#fff",
               textAlign: "center",
-              marginBottom: "1rem"
+              marginBottom: "0.8rem"
             }}
           >
             Battlesnake Preview
