@@ -141,7 +141,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/editor"
-            state={{ qrCodeNumber: user.userId }}
+            state={{ qrCodeNumber: user.userId || user.id}}
             className={`navbar__link ${
               activeLink === "/editor" ? "navbar__link--active" : ""
             }`}

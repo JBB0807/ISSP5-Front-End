@@ -29,7 +29,7 @@ const AssignmentPage = () => {
 
   useEffect(() => {
     document.title = "Assignment";
-    fetchAssignments(); // Add `await` here if it's also async
+    fetchAssignments();
   
   }, []);
 
@@ -89,24 +89,13 @@ const AssignmentPage = () => {
     return () => clearTimeout(timer); // Clear timeout on QR code number change
   }, [qrCodeNumber]);
 
-  const getCurrentUser = async () => {
+  const fetchAssignments = async () => {
     try {
       const authResponse = await fetch(`${authUrl}/auth/current_user`, {
         credentials: "include",
       });
       const user = await authResponse.json();
-      console.log("Current user fetched:", user);
       setUser(user);
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  };
-
-  const fetchAssignments = async () => {
-    try {
-      await getCurrentUser(); // Fetch the current user first
-      if (!user.userId) return; // Check if user is logged in
-      // Check if user is logged in
       console.log("User:", user);
 
       const res = await fetch(
@@ -138,6 +127,8 @@ const AssignmentPage = () => {
     setStudentName("");
     setCampID("");
     setProgramID("");
+    setQrCodeNumber("");
+    setAppName("");
     setPassword("");
     setDescription("");
     setFile(null);
@@ -145,6 +136,7 @@ const AssignmentPage = () => {
   };
 
   const handleEditClick = (qrCodeNumber) => {
+    console.log("Navigating to editor with QR Code Number:", qrCodeNumber);
     navigate('/editor', { state: { qrCodeNumber: qrCodeNumber } });
   };
 
@@ -163,21 +155,6 @@ const AssignmentPage = () => {
     formData.append("password", password);
     formData.append("description", description);
 
-    setTimeout(() => {
-      //replace with api
-      // if (editingIndex !== null) {
-      //   const updatedProjects = [...projects];
-      //   updatedProjects[editingIndex] = newProject;
-      //   setProjects(updatedProjects);
-      // } else {
-      //   setProjects([...projects, newProject]);
-      // }
-
-      alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
-      resetForm();
-      setShowModal(false);
-      setLoading(false);
-    }, 2000);
     if (editingIndex !== null) {
       //edit mode
       await fetch(`${VITE_ASSIGNMENT_URL}/instructor/update/${assignmentId}`, {
@@ -233,6 +210,7 @@ const AssignmentPage = () => {
       editingIndex !== null ? "Assignment updated!" : "Assignment submitted!"
     );
 
+    setLoading(false);
     fetchAssignments(); // Refresh the assignments list
     resetForm();
     setShowModal(false);
@@ -353,6 +331,16 @@ const AssignmentPage = () => {
                 />
               </div>
 
+              <div>
+                <label>QR Code Number</label>
+                <input
+                  type="number"
+                  value={qrCodeNumber}
+                  onChange={(e) => setQrCodeNumber(e.target.value)}
+                  required
+                />
+              </div>
+
               <div className="password-field">
                 <label>Password</label>
                 <div className="input-wrapper">
@@ -427,15 +415,17 @@ const AssignmentPage = () => {
               <div key={index} className="project-item">
                 <div className="project-meta">
                   <p><strong>Student Name:</strong> {project.studentname || project.studentName}</p>
-                  <p><strong>CampID:</strong> {project.campid || project.campID}</p>
-                  <p><strong>ProgramID:</strong> {project.programid || project.programID}</p>
+                  <p><strong>QR Number:</strong> {project.qrcodenumber || project.qrCodeNumber}</p>
+                  <p><strong>App Name:</strong> {project.appname || project.appName}</p>
+                  <p><strong>Game Snake ID:</strong> {project.snakegameid || project.snakeGameId}</p>
+                  <p><strong>URL:</strong> <a href={project.assignmenturl}>{project.assignmenturl || project.assignmentUrl}</a></p>
                 </div>
 
-              {project.title && <h4>{project.title}</h4>}
+              {/* {project.title && <h4>{project.title}</h4>}
               {project.description && <p>{project.description}</p>}
-              {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>}
+              {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>} */}
 
-              {project.assignmenturl && (
+              {/* {project.assignmenturl && (
                 <p>
                   <a
                     href={project.assignmenturl}
@@ -445,7 +435,7 @@ const AssignmentPage = () => {
                     View Assignment
                   </a>
                 </p>
-              )}
+              )} */}
               {project.originalfile && (
                 <p>
                   <a
@@ -469,8 +459,8 @@ const AssignmentPage = () => {
               <div className="action-buttons">
                 <button onClick={() => handleEdit(index)}>✏️ Edit</button>
                 <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-                <button key={project.qrCodeNumber} onClick={() => handleEditClick(project.qrCodeNumber)}>
-                  📎 QR
+                <button key={project.qrcodenumber} onClick={() => handleEditClick(project.qrcodenumber)}>
+                  📎 Editor
                 </button>
               </div>
             </div>
