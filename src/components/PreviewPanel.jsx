@@ -25,7 +25,9 @@ export default function PreviewPanel({ code }) {
       color: '#eee',
       display: 'flex',
       flexDirection: 'column',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      height: '67vh',
+      marginBorder : '1.5rem',
     }}>
       <div style={{
         backgroundColor: '#d300c5',
@@ -47,7 +49,7 @@ export default function PreviewPanel({ code }) {
         background: 'rgba(255,255,255,0.05)',
         border: '1px solid #ff2a6d',
         borderRadius: '8px',
-        padding: '1rem',
+        padding: '0.2rem',
         marginBottom: '1rem'
       }}>
         <input
@@ -57,13 +59,14 @@ export default function PreviewPanel({ code }) {
           onChange={e => { setGameId(e.target.value.trim()); setSubmitted(false); }}
           style={{
             width: '100%',
-            padding: '0.5rem',
-            marginBottom: '0.75rem',
+            textAlign: 'center',
+            padding: '0.2rem',
+            marginBottom: '0.25rem',
             border: 'none',
             borderRadius: 4,
             background: 'transparent',
             color: '#fff',
-            outline: 'none'
+            outline: 'none',
           }}
         />
         {!isValid && gameId && (
@@ -93,7 +96,8 @@ export default function PreviewPanel({ code }) {
       <div style={{
         flex: 1,
         overflow: 'hidden',
-        borderRadius: '8px'
+        borderRadius: '8px',
+        height: '100vh',
       }}>
         {submitted && (
           <iframe
