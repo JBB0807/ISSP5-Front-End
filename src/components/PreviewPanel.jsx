@@ -33,7 +33,7 @@ export default function PreviewPanel({ code }) {
         backgroundColor: '#d300c5',
         height: '6px',
         borderRadius: '3px 3px 0 0',
-        marginBottom: '0.5rem'
+        marginBottom: '0.2rem'
       }} />
       <h3 style={{
         fontSize: '1.2rem',
@@ -50,7 +50,7 @@ export default function PreviewPanel({ code }) {
         border: '1px solid #ff2a6d',
         borderRadius: '8px',
         padding: '0.2rem',
-        marginBottom: '1.2rem'
+        marginBottom: '0.1rem'
       }}>
         <input
           type="text"
@@ -59,9 +59,10 @@ export default function PreviewPanel({ code }) {
           onChange={e => { setGameId(e.target.value.trim()); setSubmitted(false); }}
           style={{
             width: '100%',
+            height: '2.5rem',
             textAlign: 'center',
             padding: '0.2rem',
-            marginBottom: '0.5rem',
+            marginBottom: '0.8rem',
             border: 'none',
             borderRadius: 4,
             background: 'transparent',
@@ -105,7 +106,7 @@ export default function PreviewPanel({ code }) {
           <iframe
             src={`https://gameboard-service-aged-glitter-8141.fly.dev/?game=${encodeURIComponent(gameId)}&autoplay=false&showControls=true`}
             title="Battlesnake Board"
-            style={{ width: '41vw', height: '85vh', border: 'none', paddingTop: '1rem', borderRadius: '8px' }}
+            style={{ width: '41vw', height: '128vh', border: 'none', paddingTop: '1rem', marginRight: '1.2rem', borderRadius: '8px' }}
             allowFullScreen
             scrolling="no"
           />
