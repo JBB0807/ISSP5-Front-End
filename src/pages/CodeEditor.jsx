@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
 export default function PageCodeEditor() {
 
-  const { qrCodeNumber: routeId } = useParams();
-  // console.log("Assignment ID:", assignmentId);
-  const qrCodeNumber = routeId || "2256";
+  const location = useLocation();
+  const qrCodeNumber = location.state?.qrCodeNumber;
+
   console.log("QR Code Number:", qrCodeNumber);
 
   const [appName, setAppName] = useState("");
@@ -18,7 +18,7 @@ export default function PageCodeEditor() {
   }, []);
 
   useEffect(() => {
-    fetch(`https://assignment-service.fly.dev/student/assignment/${qrCodeNumber}`)
+    fetch(`http://localhost:8082/student/assignment/${qrCodeNumber}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch assignment");
         return res.json();
@@ -29,7 +29,7 @@ export default function PageCodeEditor() {
 
   useEffect(() => {
     if (!appName) return;
-    fetch(`https://assignment-service.fly.dev/notebook/${appName}`)
+    fetch(`http://localhost:8082/notebook/${appName}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch notebook");
         return res.json();

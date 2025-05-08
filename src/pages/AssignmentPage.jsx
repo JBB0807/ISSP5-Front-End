@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../scss/components/_assignment.scss";
+import {useNavigate } from "react-router-dom";
 
 const AssignmentPage = () => {
   const [assignmentId, setAssignmentId] = useState("");
@@ -24,16 +25,20 @@ const AssignmentPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Assignment";
-    getCurrentUser();
     fetchAssignments();
+  
   }, []);
 
   useEffect(() => {
     if (!appName) return; // Don't alert for empty name
     const timer = setTimeout(() => {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByAppName/${appName}`)
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByAppName/${appName}`
+      )
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to fetch assignment by app name");
@@ -42,7 +47,9 @@ const AssignmentPage = () => {
         })
         .then((data) => {
           if (data.exists) {
-            alert("This app name already exists. Please choose a different one.");
+            alert(
+              "This app name already exists. Please choose a different one."
+            );
           }
         })
         .catch((error) => {
@@ -57,62 +64,60 @@ const AssignmentPage = () => {
     if (!qrCodeNumber) return; // Don't alert for empty QR code number
     console.log("Checking QR code number:", qrCodeNumber); // Added console log
     const timer = setTimeout(() => {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`)
-      .then((response) => {
-      if (!response.ok) {
-      throw new Error("Failed to fetch assignment by QR code number");
-      }
-      return response.json();
-      })
-      .then((data) => {
-      console.log("QR code fetch result:", data); // Added console log
-      if (data.exists) {
-        alert("This QR code number already exists. Please choose a different one.");
-      }
-      })
-      .catch((error) => {
-      console.error("Error fetching assignment by QR code number:", error);
-      });
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch assignment by QR code number");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("QR code fetch result:", data); // Added console log
+          if (data.exists) {
+            alert(
+              "This QR code number already exists. Please choose a different one."
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching assignment by QR code number:", error);
+        });
     }, 1000); // 1 second delay
 
     return () => clearTimeout(timer); // Clear timeout on QR code number change
-    }, [qrCodeNumber]);
+  }, [qrCodeNumber]);
 
-  const getCurrentUser = async () => {
+  const fetchAssignments = async () => {
     try {
       const authResponse = await fetch(`${authUrl}/auth/current_user`, {
         credentials: "include",
       });
-
       const user = await authResponse.json();
       setUser(user);
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  };
+      console.log("User:", user);
 
-  const fetchAssignments = async () => {
-    try {
-      // if (user) {
-      // console.log("Current user:", user, `${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`);
-      // const res = await fetch(`${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`, {
-      //   // credentials: "include",
-      // });
-      //replace this with commented code above to get the instructor id from the auth service
-      const res = await fetch(`${VITE_ASSIGNMENT_URL}/instructor/list/9`, {
-        // credentials: "include",
-      });
+      const res = await fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
+
+      console.log("Fetched assignments data:", data);
 
       // Optional: Remove duplicate assignment IDs if needed
       const unique = Array.from(
         new Map(data.map((item) => [item.assignmentid, item])).values()
       );
 
+      console.log("Unique assignments data:", unique);
+
       setProjects(unique);
-      // }
     } catch (error) {
       console.error("Error fetching assignments:", error);
     }
@@ -122,10 +127,17 @@ const AssignmentPage = () => {
     setStudentName("");
     setCampID("");
     setProgramID("");
+    setQrCodeNumber("");
+    setAppName("");
     setPassword("");
     setDescription("");
     setFile(null);
     setEditingIndex(null);
+  };
+
+  const handleEditClick = (qrCodeNumber) => {
+    console.log("Navigating to editor with QR Code Number:", qrCodeNumber);
+    navigate('/editor', { state: { qrCodeNumber: qrCodeNumber } });
   };
 
   const handleSubmit = async (e) => {
@@ -143,21 +155,6 @@ const AssignmentPage = () => {
     formData.append("password", password);
     formData.append("description", description);
 
-    setTimeout(() => {
-      //replace with api
-      // if (editingIndex !== null) {
-      //   const updatedProjects = [...projects];
-      //   updatedProjects[editingIndex] = newProject;
-      //   setProjects(updatedProjects);
-      // } else {
-      //   setProjects([...projects, newProject]);
-      // }
-
-      alert(editingIndex !== null ? "Assignment updated!" : "Assignment submitted!");
-      resetForm();
-      setShowModal(false);
-      setLoading(false);
-    }, 2000);
     if (editingIndex !== null) {
       //edit mode
       await fetch(`${VITE_ASSIGNMENT_URL}/instructor/update/${assignmentId}`, {
@@ -165,7 +162,6 @@ const AssignmentPage = () => {
         body: formData,
       })
         .then((response) => {
-          
           if (!response.ok) {
             console.error("Failed to edit assignment:", response.statusText);
             throw new Error("Failed to edit assignment");
@@ -181,7 +177,7 @@ const AssignmentPage = () => {
         });
     } else {
       //create mode
-      formData.append("instructorid", 9);
+      formData.append("instructorid", user.userId);
       formData.append("appname", appName);
 
       if (file) {
@@ -214,6 +210,7 @@ const AssignmentPage = () => {
       editingIndex !== null ? "Assignment updated!" : "Assignment submitted!"
     );
 
+    setLoading(false);
     fetchAssignments(); // Refresh the assignments list
     resetForm();
     setShowModal(false);
@@ -237,9 +234,12 @@ const AssignmentPage = () => {
   const handleDelete = (index) => {
     const project = projects[index];
     if (window.confirm("Are you sure you want to delete this assignment?")) {
-      fetch(`${VITE_ASSIGNMENT_URL}/instructor/delete/${project.assignmentid}`, {
-        method: "DELETE",
-      })
+      fetch(
+        `${VITE_ASSIGNMENT_URL}/instructor/delete/${project.assignmentid}`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((response) => {
           if (!response.ok) {
             console.error("Failed to delete assignment:", response.statusText);
@@ -331,6 +331,16 @@ const AssignmentPage = () => {
                 />
               </div>
 
+              <div>
+                <label>QR Code Number</label>
+                <input
+                  type="number"
+                  value={qrCodeNumber}
+                  onChange={(e) => setQrCodeNumber(e.target.value)}
+                  required
+                />
+              </div>
+
               <div className="password-field">
                 <label>Password</label>
                 <div className="input-wrapper">
@@ -405,15 +415,17 @@ const AssignmentPage = () => {
               <div key={index} className="project-item">
                 <div className="project-meta">
                   <p><strong>Student Name:</strong> {project.studentname || project.studentName}</p>
-                  <p><strong>CampID:</strong> {project.campid || project.campID}</p>
-                  <p><strong>ProgramID:</strong> {project.programid || project.programID}</p>
+                  <p><strong>QR Number:</strong> {project.qrcodenumber || project.qrCodeNumber}</p>
+                  <p><strong>App Name:</strong> {project.appname || project.appName}</p>
+                  <p><strong>Game Snake ID:</strong> {project.snakegameid || project.snakeGameId}</p>
+                  <p><strong>URL:</strong> <a href={project.assignmenturl}>{project.assignmenturl || project.assignmentUrl}</a></p>
                 </div>
 
-              {project.title && <h4>{project.title}</h4>}
+              {/* {project.title && <h4>{project.title}</h4>}
               {project.description && <p>{project.description}</p>}
-              {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>}
+              {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>} */}
 
-              {project.assignmenturl && (
+              {/* {project.assignmenturl && (
                 <p>
                   <a
                     href={project.assignmenturl}
@@ -423,7 +435,7 @@ const AssignmentPage = () => {
                     View Assignment
                   </a>
                 </p>
-              )}
+              )} */}
               {project.originalfile && (
                 <p>
                   <a
@@ -444,13 +456,15 @@ const AssignmentPage = () => {
                 </p>
               )}
 
-                <div className="action-buttons">
-                  <button onClick={() => handleEdit(index)}>✏️ View Edit</button>
-                  <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-                  <button onClick={() => alert("QR feature coming soon!")}>🧮 Editor</button>
-                </div>
+              <div className="action-buttons">
+                <button onClick={() => handleEdit(index)}>✏️ Edit</button>
+                <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
+                <button key={project.qrcodenumber} onClick={() => handleEditClick(project.qrcodenumber)}>
+                  📎 Editor
+                </button>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       )}
     </div>

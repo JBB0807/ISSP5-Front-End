@@ -126,6 +126,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/assignment"
+              state={{ userId: user.userId }}
               className={`navbar__link ${
                 activeLink === "/assignment" ? "navbar__link--active" : ""
               }`}
@@ -140,6 +141,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/editor"
+            state={{ qrCodeNumber: user.userId || user.id}}
             className={`navbar__link ${
               activeLink === "/editor" ? "navbar__link--active" : ""
             }`}
