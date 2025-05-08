@@ -108,8 +108,8 @@ export default function PageCodeEditor() {
             borderRadius: "10px",
             padding: "1rem",
             color: "#eee",
-            minHeight: "30vh",
-            overflow: "auto"
+            height: "100%",
+            overflow: "auto",
           }}
         >
           <h3
@@ -124,7 +124,7 @@ export default function PageCodeEditor() {
             🐍 Snake Brain (Python)
           </h3>
           <EditorPanel code={code} onChange={setCode} />
-          <div style={{ marginTop: "1rem", display: "flex", flexDirection: "flex-end" }}>
+          <div style={{ marginTop: "1rem", display: "flex", flexDirection: "row", justifyContent: "center" }}>
             <button
               onClick={handleSave}
               disabled={isSaving}

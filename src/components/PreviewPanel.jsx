@@ -26,7 +26,7 @@ export default function PreviewPanel({ code }) {
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
-      height: '67vh',
+      height: '72vh',
       marginBorder : '1.5rem',
     }}>
       <div style={{
@@ -50,7 +50,7 @@ export default function PreviewPanel({ code }) {
         border: '1px solid #ff2a6d',
         borderRadius: '8px',
         padding: '0.2rem',
-        marginBottom: '1rem'
+        marginBottom: '1.2rem'
       }}>
         <input
           type="text"
@@ -61,7 +61,7 @@ export default function PreviewPanel({ code }) {
             width: '100%',
             textAlign: 'center',
             padding: '0.2rem',
-            marginBottom: '0.25rem',
+            marginBottom: '0.5rem',
             border: 'none',
             borderRadius: 4,
             background: 'transparent',
@@ -95,7 +95,9 @@ export default function PreviewPanel({ code }) {
 
       <div style={{
         flex: 1,
-        overflow: 'hidden',
+        overflow: 'auto',
+        flexDirection: 'column',
+        justifyContent: 'center',
         borderRadius: '8px',
         height: '100vh',
       }}>
@@ -103,7 +105,7 @@ export default function PreviewPanel({ code }) {
           <iframe
             src={`https://gameboard-service-aged-glitter-8141.fly.dev/?game=${encodeURIComponent(gameId)}&autoplay=false&showControls=true`}
             title="Battlesnake Board"
-            style={{ width: '100%', height: '100%', border: 'none' }}
+            style={{ width: '41vw', height: '85vh', border: 'none', paddingTop: '1rem', borderRadius: '8px' }}
             allowFullScreen
             scrolling="no"
           />
