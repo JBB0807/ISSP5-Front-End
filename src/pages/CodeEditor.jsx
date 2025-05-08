@@ -7,11 +7,12 @@ const ASSIGNMENT_BASE = "http://localhost:8082";
 
 export default function PageCodeEditor() {
   const { qrCodeNumber: routeId } = useParams();
-  const qrCodeNumber = routeId || "6656";
+  const qrCodeNumber = routeId;
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeploying, setIsDeploying] = useState(false);
 
   useEffect(() => {
     document.title = "Snake Brain Editor";
@@ -63,6 +64,25 @@ export default function PageCodeEditor() {
     }
   };
 
+  const handleDeploy = async () => {
+    if (isDeploying) return;
+    setIsDeploying(true);
+    try {
+      const res = await fetch(`${ASSIGNMENT_BASE}/student/restart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appName })
+      });
+      if (!res.ok) throw new Error("Restart failed");
+      alert("App restarted");
+    } catch (err) {
+      console.error("Restart error:", err);
+      alert(`Restart error: ${err.message}`);
+    } finally {
+      setIsDeploying(false);
+    }
+  };
+
   return (
     <main className="code-editor-page" style={{ paddingTop: "35px" }}>
       <div
@@ -107,6 +127,7 @@ export default function PageCodeEditor() {
               style={{
                 backgroundColor: "#ff2a6d",
                 color: "#fff",
+                marginLeft: "50rem",
                 padding: "0.5rem 2rem",
                 border: "none",
                 borderRadius: "20px",
@@ -116,7 +137,11 @@ export default function PageCodeEditor() {
             >
               {isSaving ? "Saving..." : "Save"}
             </button>
+
+
             <button
+              onClick={handleDeploy}
+              disabled={isDeploying}
               style={{
                 marginLeft: "1rem",
                 backgroundColor: "#ff2a6d",
@@ -125,10 +150,10 @@ export default function PageCodeEditor() {
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: "pointer"
+                cursor: isDeploying ? "not-allowed" : "pointer"
               }}
             >
-              Deploy
+              {isDeploying ? "Deploying..." : "Deploy"}
             </button>
           </div>
         </div>
