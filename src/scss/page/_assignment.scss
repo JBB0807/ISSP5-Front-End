@@ -1,10 +1,18 @@
 // Assignment Page Styling
+body {
+  justify-content: flex-starts;
+}
 
 .assignment-page {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+
+  a {
+    text-decoration: none;
+    color: #AAC5E5;
+  }
 
   section {
     width: 100%;
