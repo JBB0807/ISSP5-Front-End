@@ -1,21 +1,9 @@
-// .login-page {
-//   min-height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-
-//   background-image: url("../../../public/images/grid-background.png");
-//   background-size: cover;
-//   background-position: center;
-//   background-repeat: no-repeat;
-//   background-attachment: fixed;
-
-//   section {
-//     width: 100%;
-//     max-width: 800px;
-//     padding: 20px;
-//   }
-// }
+$neon-pink: #ff2a6d;
+$neon-blue: #05d9e8;
+$neon-purple: #d300c5;
+$neon-yellow: #f7f500;
+$dark-bg: #0d0221;
+$cyber-black: #1a1a1a;
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -23,13 +11,75 @@
 
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
+// Animations for cyberpunk effects
+@keyframes flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes grid-movement {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 25px;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: transparent;
-  background-image: url("/images/grid-background.jpg");
+  background: $dark-bg;
+  background-image: linear-gradient(rgba($dark-bg, 0.1), rgba($dark-bg, 0.1)),
+    url("/images/grid-background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -40,18 +90,25 @@ body {
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
   height: 100vh;
-  margin: -20px 0 50px;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 h1 {
   font-weight: bold;
   margin: 0;
+  color: $neon-blue;
+  text-shadow: 0 0 8px rgba($neon-blue, 0.7), 0 0 15px rgba($neon-blue, 0.5);
+  letter-spacing: 2px;
 }
 
 h2 {
   text-align: center;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  color: $neon-pink;
+  text-shadow: 0 0 10px rgba($neon-pink, 0.7), 0 0 20px rgba($neon-pink, 0.5);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 2rem;
 }
 
 p {
@@ -74,33 +131,73 @@ a {
 }
 
 button {
-  border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
-  color: #ffffff;
+  position: relative;
+  border-radius: 4px;
+  border: 2px solid $neon-pink;
+  background-color: rgba($dark-bg, 0.7);
+  color: $neon-pink;
   font-size: 12px;
   font-weight: bold;
   padding: 12px 45px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  transition: transform 80ms ease-in;
-}
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba($neon-pink, 0.5);
+  text-shadow: 0 0 5px rgba($neon-pink, 0.8);
+  cursor: pointer;
 
-button:active {
-  transform: scale(0.95);
-}
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($neon-pink, 0.3),
+      transparent
+    );
+    transition: 0.5s;
+  }
 
-button:focus {
-  outline: none;
+  &:hover {
+    background-color: rgba($neon-pink, 0.2);
+    color: white;
+    box-shadow: 0 0 15px rgba($neon-pink, 0.8);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 button.ghost {
   background-color: transparent;
-  border-color: #ffffff;
+  border: 2px solid $neon-blue;
+  color: $neon-blue;
+  box-shadow: 0 0 8px rgba($neon-blue, 0.5);
+  text-shadow: 0 0 5px rgba($neon-blue, 0.8);
+
+  &:hover {
+    background-color: rgba($neon-blue, 0.2);
+    color: white;
+    box-shadow: 0 0 15px rgba($neon-blue, 0.8);
+  }
 }
 
 form {
-  background-color: #ffffff;
+  background-color: $dark-bg;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,25 +205,68 @@ form {
   padding: 0 50px;
   height: 100%;
   text-align: center;
+  border-left: 1px solid rgba($neon-pink, 0.3);
+  border-right: 1px solid rgba($neon-pink, 0.3);
+  box-shadow: inset 0 0 20px rgba($neon-blue, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 input {
-  background-color: #eee;
-  border: none;
+  background-color: rgba($dark-bg, 0.7);
+  border: 1px solid $neon-blue;
+  border-radius: 4px;
   padding: 12px 15px;
-  margin: 8px 0;
+  margin: 12px 0;
   width: 100%;
+  color: white;
+  box-shadow: 0 0 5px rgba($neon-blue, 0.3);
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $neon-pink;
+    box-shadow: 0 0 10px rgba($neon-pink, 0.5);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 .container {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  background-color: rgba($cyber-black, 0.7);
+  border-radius: 8px;
+  border: 1px solid $neon-blue;
+  box-shadow: 0 0 20px rgba($neon-blue, 0.4), 0 0 40px rgba($neon-purple, 0.2);
   position: relative;
   overflow: hidden;
   width: 768px;
   max-width: 100%;
   min-height: 480px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $neon-pink, transparent);
+    box-shadow: 0 0 10px $neon-pink;
+    z-index: 10;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $neon-blue, transparent);
+    box-shadow: 0 0 10px $neon-blue;
+    z-index: 10;
+  }
 }
 
 .form-container {
@@ -134,6 +274,7 @@ input {
   top: 0;
   height: 100%;
   transition: all 0.6s ease-in-out;
+  will-change: transform, opacity;
 }
 
 .sign-in-container {
@@ -183,6 +324,7 @@ input {
   overflow: hidden;
   transition: transform 0.6s ease-in-out;
   z-index: 100;
+  will-change: transform;
 }
 
 .container.right-panel-active .overlay-container {
@@ -190,9 +332,8 @@ input {
 }
 
 .overlay {
-  background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: $dark-bg;
+  background: linear-gradient(135deg, $cyber-black, $dark-bg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -203,6 +344,43 @@ input {
   width: 200%;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
+  overflow: hidden;
+  will-change: transform;
+
+  /* Cyberpunk grid background as an independent element to avoid animation conflicts */
+  .grid-background {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+        rgba($neon-blue, 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba($neon-blue, 0.1) 1px, transparent 1px);
+    background-size: 25px 25px;
+    z-index: 1;
+    animation: grid-movement 5s linear infinite;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* Scanline effect as an independent element */
+  .scanline {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: rgba($neon-pink, 0.5);
+    box-shadow: 0 0 10px rgba($neon-pink, 0.8);
+    animation: scanline 3s linear infinite;
+    z-index: 2;
+    pointer-events: none;
+  }
 }
 
 .container.right-panel-active .overlay {
@@ -243,10 +421,11 @@ input {
 
 .social-container {
   margin: 20px 0;
+  position: relative;
 }
 
 .social-container a {
-  border: 1px solid #dddddd;
+  border: 2px solid $neon-blue;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
@@ -254,6 +433,64 @@ input {
   margin: 0 5px;
   height: 60px;
   width: 60px;
+  color: $neon-blue;
+  background-color: rgba($dark-bg, 0.6);
+  box-shadow: 0 0 8px rgba($neon-blue, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  /* Google icon specific styling */
+  &.google-signin {
+    i, .fab {
+      font-size: 1.8rem;
+      color: $neon-blue;
+      text-shadow: 0 0 5px rgba($neon-blue, 0.8);
+      transition: all 0.3s ease;
+    }
+    
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        transparent, 
+        rgba($neon-blue, 0.3), 
+        transparent 30%
+      );
+      animation: rotate 4s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+      background-color: rgba($dark-bg, 0.8);
+      border-color: $neon-pink;
+      box-shadow: 0 0 15px rgba($neon-pink, 0.7), inset 0 0 10px rgba($neon-pink, 0.4);
+      transform: scale(1.05);
+      
+      &::before {
+        opacity: 1;
+      }
+      
+      i, .fab {
+        color: $neon-pink;
+        text-shadow: 0 0 8px rgba($neon-pink, 1);
+      }
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 footer {
