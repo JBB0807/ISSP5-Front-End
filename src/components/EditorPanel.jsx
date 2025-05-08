@@ -8,9 +8,10 @@ export default function EditorPanel({ code, onChange }) {
       border: '1px solid #444',
       borderRadius: '8px',
       backgroundColor: '#1e1e1e',
-      height: '70vh',
-      boxShadow: '0 0 10px rgba(255, 0, 255, 0.2)',
-      overflow: 'hidden'
+      height: '65vh',
+      boxShadow: "0 0 12px #00bfff",
+      overflow: 'hidden',
+      marginTop: '45px'
     }}>
       <Editor
         height="100%"
