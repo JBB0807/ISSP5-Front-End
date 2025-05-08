@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
 const ASSIGNMENT_BASE = "http://localhost:8082";
 
 export default function PageCodeEditor() {
-  const { qrCodeNumber: routeId } = useParams();
-  const qrCodeNumber = routeId || "6656";
+
+  const location = useLocation();
+  const qrCodeNumber = location.state?.qrCodeNumber;
+
+  console.log("QR Code Number:", qrCodeNumber);
 
   const [appName, setAppName] = useState("");
   const [code, setCode] = useState("# NOW LOADING");
