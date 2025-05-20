@@ -19,3 +19,14 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+div{
+  margin: 0;
+  padding: 0;
+}

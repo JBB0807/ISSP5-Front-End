@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "../scss/components/_assignment.scss";
-import {useNavigate } from "react-router-dom";
+import "../scss/page/_assignment.scss";
+import { useNavigate } from "react-router-dom";
 
 const AssignmentPage = () => {
   const [assignmentId, setAssignmentId] = useState("");
@@ -30,7 +30,6 @@ const AssignmentPage = () => {
   useEffect(() => {
     document.title = "Assignment";
     fetchAssignments();
-  
   }, []);
 
   useEffect(() => {
@@ -137,7 +136,7 @@ const AssignmentPage = () => {
 
   const handleEditClick = (qrCodeNumber) => {
     console.log("Navigating to editor with QR Code Number:", qrCodeNumber);
-    navigate('/editor', { state: { qrCodeNumber: qrCodeNumber } });
+    navigate("/editor", { state: { qrCodeNumber: qrCodeNumber } });
   };
 
   const handleSubmit = async (e) => {
@@ -370,23 +369,35 @@ const AssignmentPage = () => {
 
               <div>
                 <label>File Upload (optional)</label>
-                <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
               </div>
 
-              {loading && (
-                <div className="spinner-container">
-                  <div className="spinner"></div>
-                  <p>Uploading...</p>
-                </div>
-              )}
+              <div className="modal-footer">
+                {loading && (
+                  <div className="spinner-container">
+                    <div className="spinner"></div>
+                    <span>Uploading...</span>
+                  </div>
+                )}
 
-              <div className="modal-buttons">
-                <button type="submit" disabled={loading}>
-                  {editingIndex !== null ? "Update" : "Submit"}
-                </button>
-                <button type="button" onClick={() => { resetForm(); setShowModal(false); }} disabled={loading}>
-                  Cancel
-                </button>
+                <div className="modal-buttons">
+                  <button type="submit" disabled={loading}>
+                    {editingIndex !== null ? "Update" : "Submit"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetForm();
+                      setShowModal(false);
+                    }}
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </form>
           </div>
@@ -400,7 +411,7 @@ const AssignmentPage = () => {
               if (!searchTerm.trim()) return true;
               const regex = new RegExp(searchTerm, "i");
               return (
-                regex.test(project.studentname ||  project.studentName || "") ||
+                regex.test(project.studentname || project.studentName || "") ||
                 regex.test(project.campid || project.campID || "") ||
                 regex.test(project.programid || project.programID || "") ||
                 regex.test(project.title || "") ||
@@ -414,18 +425,35 @@ const AssignmentPage = () => {
             .map((project, index) => (
               <div key={index} className="project-item">
                 <div className="project-meta">
-                  <p><strong>Student Name:</strong> {project.studentname || project.studentName}</p>
-                  <p><strong>QR Number:</strong> {project.qrcodenumber || project.qrCodeNumber}</p>
-                  <p><strong>App Name:</strong> {project.appname || project.appName}</p>
-                  <p><strong>Game Snake ID:</strong> {project.snakegameid || project.snakeGameId}</p>
-                  <p><strong>URL:</strong> <a href={project.assignmenturl}>{project.assignmenturl || project.assignmentUrl}</a></p>
+                  <p>
+                    <strong>Student Name:</strong>{" "}
+                    {project.studentname || project.studentName}
+                  </p>
+                  <p>
+                    <strong>QR Number:</strong>{" "}
+                    {project.qrcodenumber || project.qrCodeNumber}
+                  </p>
+                  <p>
+                    <strong>App Name:</strong>{" "}
+                    {project.appname || project.appName}
+                  </p>
+                  <p>
+                    <strong>Game Snake ID:</strong>{" "}
+                    {project.snakegameid || project.snakeGameId}
+                  </p>
+                  <p>
+                    <strong>URL:</strong>{" "}
+                    <a href={project.assignmenturl}>
+                      {project.assignmenturl || project.assignmentUrl}
+                    </a>
+                  </p>
                 </div>
 
-              {/* {project.title && <h4>{project.title}</h4>}
+                {/* {project.title && <h4>{project.title}</h4>}
               {project.description && <p>{project.description}</p>}
               {project.fileName && <p><strong>Uploaded File:</strong> {project.fileName}</p>} */}
 
-              {/* {project.assignmenturl && (
+                {/* {project.assignmenturl && (
                 <p>
                   <a
                     href={project.assignmenturl}
@@ -436,35 +464,38 @@ const AssignmentPage = () => {
                   </a>
                 </p>
               )} */}
-              {project.originalfile && (
-                <p>
-                  <a
-                    href={project.originalfile}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Original File
-                  </a>{" "}
-                  |{" "}
-                  <a
-                    href={project.editablefile}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Editable File
-                  </a>
-                </p>
-              )}
+                {project.originalfile && (
+                  <p>
+                    <a
+                      href={project.originalfile}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Original File
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      href={project.editablefile}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Editable File
+                    </a>
+                  </p>
+                )}
 
-              <div className="action-buttons">
-                <button onClick={() => handleEdit(index)}>✏️ Edit</button>
-                <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
-                <button key={project.qrcodenumber} onClick={() => handleEditClick(project.qrcodenumber)}>
-                  📎 Editor
-                </button>
+                <div className="action-buttons">
+                  <button onClick={() => handleEdit(index)}>✏️ Edit</button>
+                  <button onClick={() => handleDelete(index)}>🗑️ Delete</button>
+                  <button
+                    key={project.qrcodenumber}
+                    onClick={() => handleEditClick(project.qrcodenumber)}
+                  >
+                    📎 Editor
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>

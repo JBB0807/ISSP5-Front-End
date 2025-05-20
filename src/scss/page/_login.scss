@@ -72,165 +72,12 @@ $cyber-black: #1a1a1a;
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background: $dark-bg;
-  background-image: linear-gradient(rgba($dark-bg, 0.1), rgba($dark-bg, 0.1)),
-    url("/images/grid-background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+.login-page{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  font-family: "Montserrat", sans-serif;
-  height: 100vh;
-  margin: 0;
-  overflow-x: hidden;
-}
-
-h1 {
-  font-weight: bold;
-  margin: 0;
-  color: $neon-blue;
-  text-shadow: 0 0 8px rgba($neon-blue, 0.7), 0 0 15px rgba($neon-blue, 0.5);
-  letter-spacing: 2px;
-}
-
-h2 {
-  text-align: center;
-  color: $neon-pink;
-  text-shadow: 0 0 10px rgba($neon-pink, 0.7), 0 0 20px rgba($neon-pink, 0.5);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-size: 2rem;
-}
-
-p {
-  font-size: 14px;
-  font-weight: 100;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  margin: 20px 0 30px;
-}
-
-span {
-  font-size: 12px;
-}
-
-a {
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  margin: 15px 0;
-}
-
-button {
-  position: relative;
-  border-radius: 4px;
-  border: 2px solid $neon-pink;
-  background-color: rgba($dark-bg, 0.7);
-  color: $neon-pink;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 12px 45px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  box-shadow: 0 0 8px rgba($neon-pink, 0.5);
-  text-shadow: 0 0 5px rgba($neon-pink, 0.8);
-  cursor: pointer;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba($neon-pink, 0.3),
-      transparent
-    );
-    transition: 0.5s;
-  }
-
-  &:hover {
-    background-color: rgba($neon-pink, 0.2);
-    color: white;
-    box-shadow: 0 0 15px rgba($neon-pink, 0.8);
-
-    &::before {
-      left: 100%;
-    }
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  &:focus {
-    outline: none;
-  }
-}
-
-button.ghost {
-  background-color: transparent;
-  border: 2px solid $neon-blue;
-  color: $neon-blue;
-  box-shadow: 0 0 8px rgba($neon-blue, 0.5);
-  text-shadow: 0 0 5px rgba($neon-blue, 0.8);
-
-  &:hover {
-    background-color: rgba($neon-blue, 0.2);
-    color: white;
-    box-shadow: 0 0 15px rgba($neon-blue, 0.8);
-  }
-}
-
-form {
-  background-color: $dark-bg;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 50px;
-  height: 100%;
-  text-align: center;
-  border-left: 1px solid rgba($neon-pink, 0.3);
-  border-right: 1px solid rgba($neon-pink, 0.3);
-  box-shadow: inset 0 0 20px rgba($neon-blue, 0.2);
-  backdrop-filter: blur(5px);
-}
-
-input {
-  background-color: rgba($dark-bg, 0.7);
-  border: 1px solid $neon-blue;
-  border-radius: 4px;
-  padding: 12px 15px;
-  margin: 12px 0;
-  width: 100%;
-  color: white;
-  box-shadow: 0 0 5px rgba($neon-blue, 0.3);
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: $neon-pink;
-    box-shadow: 0 0 10px rgba($neon-pink, 0.5);
-  }
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
+  min-height: 100vh;
 }
 
 .container {
@@ -516,4 +363,94 @@ footer i {
 footer a {
   color: #3c97bf;
   text-decoration: none;
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .error-message {
+      background-color: #ffecec;
+      color: #d63031;
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+
+        &:focus {
+          outline: none;
+          border-color: #4a90e2;
+        }
+      }
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #3a7bc8;
+      }
+    }
+
+    .login-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+
+      p {
+        margin-bottom: 0.5rem;
+      }
+
+      a {
+        color: #4a90e2;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
