@@ -26,10 +26,7 @@ const AppRouter = () => {
           <Route
             path="/"
             element={
-              <>
-                <Hero />
-                <Services />
-              </>
+              <HomePage/>
             }
           />
             <Route

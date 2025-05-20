@@ -87,10 +87,9 @@ $cyber-black: #1a1a1a;
   display: flex;
   justify-content: center;
   align-items: center;
-  //min-height: 100vh;
+  min-height: 95vh;
   width: 100%;
-  padding-top: 1100px; /* Adjust padding-top to account for navbar height */
-  margin-top: 60px; /* Add margin-top to account for navbar height */
+  // margin-top: 70px; /* Add margin-top to account for navbar height */
   background-color: $dark-bg;
   overflow: hidden;
 

@@ -1,17 +1,22 @@
-// Assignment Page Styling
-body {
-  justify-content: flex-starts;
+body.modal-open {
+  overflow: hidden;
 }
 
 .assignment-page {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 20px;
+  margin: 200px 0 150px;
+  overflow: hidden;
+  min-height: 100vh;
+  box-sizing: border-box;
 
   a {
     text-decoration: none;
-    color: #AAC5E5;
+    color: #aac5e5;
   }
 
   section {
@@ -19,10 +24,16 @@ body {
     max-width: 900px;
   }
 
-  .assignment-header {
+  .assignment-header-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 2rem;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid lab(73.33 30.65 -21.82);
+    box-shadow: 0 0 20px lab(51.3 74.34 -37.13);
+    padding: 1rem;
 
     h2 {
       font-size: 3rem;
@@ -36,171 +47,273 @@ body {
     }
   }
 
-  .assignment-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+  form {
+    margin-bottom: 20px;
 
-    .assignment-info {
-      margin-bottom: 2rem;
+    div {
+      // margin-bottom: 15px;
+      width: 100%;
 
-      h3 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-        color: #333;
-      }
-
-      .files-count {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .submission-note {
-        font-size: 0.9rem;
-        color: #666;
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: start;
       }
     }
 
-    .file-upload-section {
-      margin-bottom: 2rem;
+    button {
+      padding: 8px 16px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
 
-      .upload-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-
-        .file-upload-btn,
-        .record-audio-btn,
-        .record-video-btn {
-          background-color: #f5f5f5;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          padding: 0.6rem 1rem;
-          cursor: pointer;
-          font-size: 0.9rem;
-          transition: all 0.2s ease;
-          color: #333;
-
-          &:hover {
-            background-color: #e9e9e9;
-          }
-        }
-      }
-
-      .files-list {
-        background-color: #f9f9f9;
-        border-radius: 6px;
-        padding: 1rem;
-
-        h4 {
-          margin-bottom: 0.8rem;
-          font-size: 1rem;
-        }
-
-        ul {
-          list-style: none;
-          padding: 0;
-
-          .file-item {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-
-            &:last-child {
-              border-bottom: none;
-            }
-
-            .file-name {
-              flex-grow: 1;
-              font-weight: 500;
-            }
-
-            .file-size {
-              color: #777;
-              margin: 0 1rem;
-              font-size: 0.8rem;
-            }
-
-            .remove-file-btn {
-              background-color: transparent;
-              border: none;
-              color: #ff5252;
-              cursor: pointer;
-              font-size: 0.8rem;
-              padding: 0.3rem 0.6rem;
-
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
+      &:hover {
+        background-color: #3367d6;
       }
     }
+  }
 
-    .comments-section {
-      margin-bottom: 2rem;
+  .assignment-links a {
+    color: white !important;
+  }
+
+  .project-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 7rem;
+
+    .project-item {
+      background: #0f0f1a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      overflow-wrap: break-word;
+      border: 2px solid rgb(75 187 236);
+
+      .project-meta {
+        margin-bottom: 0.75rem;
+        color: lightgray;
+
+        strong {
+          color: #00bfff;
+          font-weight: bold;
+        }
+      }
 
       h4 {
-        margin-bottom: 0.8rem;
-        font-size: 1rem;
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+        color: white;
       }
 
-      textarea {
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 0.8rem;
-        font-family: inherit;
-        resize: vertical;
+      p {
+        margin: 1rem 0;
+        color: white;
+        line-height: 1.4;
+        font-size: 15px;
 
-        &:focus {
-          outline: none;
-          border-color: #4a90e2;
+        strong {
+          color: #00bfff;
+          font-weight: bold;
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+
+        button {
+          background-color: #000;
+          border: 2px solid #00bfff;
+          border-radius: 6px;
+          padding: 0.4rem 0.8rem;
+          cursor: pointer;
+          font-size: 0.9rem;
+
+          &:nth-child(1) {
+            color: #007fff;
+          }
+
+          &:nth-child(2) {
+            color: #c0392b;
+          }
+
+          &:nth-child(3) {
+            color: #16a085;
+          }
         }
       }
     }
+  }
 
-    .submission-buttons {
-      display: flex;
-      gap: 1rem;
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden;
+  }
 
-      .submit-btn,
-      .cancel-btn {
-        padding: 0.7rem 1.5rem;
-        border-radius: 4px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
+  .modal {
+    display: flex;
+    flex-direction: column;
+    background-color: #09021f;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    border: #aac5e5 solid 1px;
+    box-shadow: 0 30px 35px rgb(13 58 154);
+    animation: fadeIn 0.3s ease;
+  }
 
-      .submit-btn {
-        background-color: #4a90e2;
-        color: white;
-        border: none;
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
 
-        &:hover {
-          background-color: #3a7bc8;
-        }
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #e3dfdf;
+      font-size: 0.8rem;
+    }
+  }
 
-        &:disabled {
-          background-color: #a0c3e8;
-          cursor: not-allowed;
-        }
-      }
+  .modal form {
+    border-radius: 12px;
+  }
 
-      .cancel-btn {
-        background-color: transparent;
-        border: 1px solid #ddd;
-        color: #666;
+  .modal h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #e3dfdf;
+  }
 
-        &:hover {
-          background-color: #f5f5f5;
-        }
-      }
+  .modal label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #e3dfdf;
+  }
+
+  .modal input,
+  .modal textarea {
+    width: 100%;
+    border: 1px solid #bbbbbb;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    background: #00000000;
+    color: #e3dfdf;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 4px 4px rgba(13 58 154 / 0.54);
+      animation: fadeIn 0.3s ease;
+      outline: none;
+    }
+  }
+
+  .modal textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .modal-buttons button[type="submit"] {
+    background-color: #ff4b2b;
+    color: #fff;
+
+    &:hover {
+      background-color: #ff2600;
+    }
+  }
+
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+  }
+
+  .modal-buttons button[type="button"] {
+    background-color: #d3d3d3;
+    color: #333;
+
+    &:hover {
+      background-color: #cfcfcf;
+    }
+  }
+
+  .spinner-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 20px;
+    gap: .5rem;
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 5px solid #aac5e5;
+      border-top: 5px solid #4285f4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    span {
+      color: #aac5e5;
+      font-size: .8rem;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
