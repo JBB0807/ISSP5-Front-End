@@ -19,7 +19,7 @@ const AssignmentPage = () => {
 
   const [user, setUser] = useState([]);
 
-  const VITE_ASSIGNMENT_URL = import.meta.env.VITE_ASSIGNMENT_URL;
+  const ASSIGNMENT_BASE = import.meta.env.VITE_ASSIGNMENT_URL;
   const authUrl = import.meta.env.VITE_AUTH_URL;
   const [searchTerm, setSearchTerm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +36,7 @@ const AssignmentPage = () => {
     if (!appName) return; // Don't alert for empty name
     const timer = setTimeout(() => {
       fetch(
-        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByAppName/${appName}`
+        `${ASSIGNMENT_BASE}/instructor/checkAssignmentByAppName/${appName}`
       )
         .then((response) => {
           if (!response.ok) {
@@ -64,7 +64,7 @@ const AssignmentPage = () => {
     console.log("Checking QR code number:", qrCodeNumber); // Added console log
     const timer = setTimeout(() => {
       fetch(
-        `${VITE_ASSIGNMENT_URL}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`
+        `${ASSIGNMENT_BASE}/instructor/checkAssignmentByQRCode/${qrCodeNumber}`
       )
         .then((response) => {
           if (!response.ok) {
@@ -98,7 +98,7 @@ const AssignmentPage = () => {
       console.log("User:", user);
 
       const res = await fetch(
-        `${VITE_ASSIGNMENT_URL}/instructor/list/${user.userId}`,
+        `${ASSIGNMENT_BASE}/instructor/list/${user.userId}`,
         {
           method: "GET",
         }
@@ -156,7 +156,7 @@ const AssignmentPage = () => {
 
     if (editingIndex !== null) {
       //edit mode
-      await fetch(`${VITE_ASSIGNMENT_URL}/instructor/update/${assignmentId}`, {
+      await fetch(`${ASSIGNMENT_BASE}/instructor/update/${assignmentId}`, {
         method: "PUT",
         body: formData,
       })
@@ -185,7 +185,7 @@ const AssignmentPage = () => {
         throw new Error("Failed to submit assignment: file not found.");
       }
 
-      await fetch(`${VITE_ASSIGNMENT_URL}/instructor/create`, {
+      await fetch(`${ASSIGNMENT_BASE}/instructor/create`, {
         method: "POST",
         body: formData,
       })
@@ -234,7 +234,7 @@ const AssignmentPage = () => {
     const project = projects[index];
     if (window.confirm("Are you sure you want to delete this assignment?")) {
       fetch(
-        `${VITE_ASSIGNMENT_URL}/instructor/delete/${project.assignmentid}`,
+        `${ASSIGNMENT_BASE}/instructor/delete/${project.assignmentid}`,
         {
           method: "DELETE",
         }

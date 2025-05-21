@@ -3,10 +3,9 @@ import { useLocation } from "react-router-dom";
 import EditorPanel from "../components/EditorPanel";
 import PreviewPanel from "../components/PreviewPanel";
 
-const ASSIGNMENT_BASE = "http://localhost:8082";
+const ASSIGNMENT_BASE = import.meta.env.VITE_ASSIGNMENT_URL;
 
 export default function PageCodeEditor() {
-
   const location = useLocation();
   const qrCodeNumber = location.state?.qrCodeNumber;
 
@@ -55,7 +54,7 @@ export default function PageCodeEditor() {
       const res = await fetch(`${ASSIGNMENT_BASE}/student/save`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appName, code })
+        body: JSON.stringify({ appName, code }),
       });
       if (!res.ok) throw new Error("Save failed");
       alert("Notebook saved");
@@ -74,7 +73,7 @@ export default function PageCodeEditor() {
       const res = await fetch(`${ASSIGNMENT_BASE}/student/restart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appName })
+        body: JSON.stringify({ appName }),
       });
       if (!res.ok) throw new Error("Restart failed");
       alert("App restarted");
@@ -87,16 +86,19 @@ export default function PageCodeEditor() {
   };
 
   return (
-    <main className="code-editor-page" style={{ paddingTop: "35px", width: "100vw" }}>
+    <main
+      className="code-editor-page"
+      style={{ paddingTop: "35px", width: "100vw" }}
+    >
       <div
         className="editor-page-layout"
         style={{
           display: "grid",
-          gridTemplateColumns: '1fr 0.8fr',
+          gridTemplateColumns: "1fr 0.8fr",
           //gap: "1rem",
           width: "100%",
           padding: "1rem",
-          fontFamily: "'Fira Code', 'Courier New', monospace"
+          fontFamily: "'Fira Code', 'Courier New', monospace",
         }}
       >
         {/* Python Editor */}
@@ -118,13 +120,20 @@ export default function PageCodeEditor() {
               fontSize: "1.2rem",
               color: "#05d9e8",
               textShadow: "0 0 5px #05d9e8",
-              marginBottom: "1rem"
+              marginBottom: "1rem",
             }}
           >
             🐍 Snake Brain (Python)
           </h3>
           <EditorPanel code={code} onChange={setCode} />
-          <div style={{ marginTop: "1rem", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
             <button
               onClick={handleSave}
               disabled={isSaving}
@@ -135,12 +144,11 @@ export default function PageCodeEditor() {
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: isSaving ? "not-allowed" : "pointer"
+                cursor: isSaving ? "not-allowed" : "pointer",
               }}
             >
               {isSaving ? "Saving..." : "Save"}
             </button>
-
 
             <button
               onClick={handleDeploy}
@@ -153,7 +161,7 @@ export default function PageCodeEditor() {
                 border: "none",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                cursor: isDeploying ? "not-allowed" : "pointer"
+                cursor: isDeploying ? "not-allowed" : "pointer",
               }}
             >
               {isDeploying ? "Deploying..." : "Deploy"}
@@ -170,7 +178,7 @@ export default function PageCodeEditor() {
             borderRadius: "12px",
             padding: "0.8rem",
             color: "#eee",
-            minHeight: "20vh"
+            minHeight: "20vh",
           }}
         >
           <h3
@@ -181,7 +189,7 @@ export default function PageCodeEditor() {
               marginBottom: "0.8rem",
               display: "flex",
               alignItems: "center",
-              gap: "0.8rem"
+              gap: "0.8rem",
             }}
           >
             🎯 Live Arena Output
@@ -190,7 +198,7 @@ export default function PageCodeEditor() {
             style={{
               color: "#fff",
               textAlign: "center",
-              marginBottom: "0.8rem"
+              marginBottom: "0.8rem",
             }}
           >
             Battlesnake Preview
