@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  calculator_app: 
+  battlesnake_app: 
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: calculator_dev_app
+    container_name: battlesnake_dev_app
     ports:
       - "5173:5173"
     volumes:
