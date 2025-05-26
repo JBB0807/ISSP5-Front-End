@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  snake_byte_app: 
+  calculator_app: 
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: snake_byte_dev_app
+    container_name: calculator_dev_app
     ports:
       - "5173:5173"
     volumes:
