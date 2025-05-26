@@ -1,0 +1,63 @@
+# Name of our overall action
+name: Deploy to GitHub Pages
+
+# on defines when the action will run
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+# permissions grant the image runner the ability to perform read/write files
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# commits made to main at almost the same time will cancel the previous and only run the last
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# job defines WHAT actions(s) will run
+jobs:
+  # build is the name of the job, can be any name
+  build:
+    #each job is executed in an image (ubuntu)
+    runs-on: ubuntu-22.04
+    #step are task
+    steps:
+      #each step has a name, a command (like run) or uses a pre-made steps like pnpm/action-setup@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Instal pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+        #with are argument supplied to the actions
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build Application
+        run: pnpm build
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+        # artifact prepares the static files for GH Pages deployment and makes them available for the next job.
+  deploy:
+    environment:
+      #setting environment variables for this job
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+      #dependency on build, it will only run if build job completed successfully
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # no additional config required 
