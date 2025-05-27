@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://JBB0807.github.io/ISSP5-Front-End",
   "scripts": {
     "dev": "vite --mode development",
     "build": "vite build",
